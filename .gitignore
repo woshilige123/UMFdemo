@@ -1,0 +1,7 @@
+*.class
+*.zip
+*.bak
+*.tar
+*.log
+/target/*
+/src/main/resources/SignVerProp.properties
