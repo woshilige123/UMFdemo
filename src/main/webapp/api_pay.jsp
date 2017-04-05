@@ -28,6 +28,8 @@
 			    pageData["pay_type"] = $("#pay_type").val();
 			    pageData["gate_id"] = $("#gate_id").val();
 			    pageData["notify_url"] = $("#notify_url").val();
+			    pageData["mer_cust_id"] = $("#mer_cust_id").val();
+			    
 			    
 			    $.ajax("/demo/demo/getTradeNo",{
 			    	method:"POST",
@@ -67,6 +69,9 @@
 			    pageData["identity_code"] = $("#identity_code").val();
 			    pageData["media_id"] = $("#media_id").val();
 			    pageData["mer_id"] = $("#mer_id").val();
+			    pageData["mer_cust_id"] = $("#mer_cust_id").val();
+			    pageData["usr_busi_agreement_id"] = $("#usr_busi_agreement_id").val();
+			    pageData["usr_pay_agreement_id"] = $("#usr_pay_agreement_id").val();
 			    
 			    $.ajax("/demo/demo/sendSms",{
 			    	method:"POST",
@@ -102,6 +107,9 @@
 			    pageData["identity_code"] = $("#identity_code").val();
 			    pageData["media_id"] = $("#media_id").val();
 			    pageData["mer_id"] = $("#mer_id").val();
+			    pageData["mer_cust_id"] = $("#mer_cust_id").val();
+			    pageData["usr_busi_agreement_id"] = $("#usr_busi_agreement_id").val();
+			    pageData["usr_pay_agreement_id"] = $("#usr_pay_agreement_id").val();
 			    
 			    $.ajax("/demo/demo/confirmPayment",{
 			    	method:"POST",
@@ -200,6 +208,15 @@
             </div>
             <div class='form-row'>
               <div class='form-group card required'>
+                  <label class='control-label'>mer_cust_id</label>
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "mer_cust_id">
+              </div>
+            </div>
+            
+            
+            
+            <div class='form-row'>
+              <div class='form-group card required'>
                   <label class='control-label'>Payment methods</label>
                   <select id="pay_type" class="form-control">
 				  	<option value="CREDITCARD" selected="selected">CREDITCARD</option>
@@ -294,6 +311,20 @@
               <div class='form-group card required'>
                   <label class='control-label'>Enter the code sent to your mobile</label>
                 <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "verify_code" disabled="disabled">
+              </div>
+            </div>
+            
+            <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>usr_busi_agreement_id</label>
+                <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "usr_busi_agreement_id">
+              </div>
+            </div>
+            
+            <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>usr_pay_agreement_id</label>
+                <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "usr_pay_agreement_id">
               </div>
             </div>
 	        <input type = "button" id = "sendSms" value="Send code">
