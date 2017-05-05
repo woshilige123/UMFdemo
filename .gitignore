@@ -5,3 +5,4 @@
 *.log
 /target/*
 /src/main/resources/SignVerProp.properties
+/target/
