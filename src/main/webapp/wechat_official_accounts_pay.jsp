@@ -24,13 +24,12 @@
 	        	var pageData =  new Object();
 	        	$("#alerts").hide();
 			    pageData["mer_id"] = $("#mer_id").val();
-			    pageData["amount"] = $("#amount").val();
-			    pageData["is_public_number"] = $("#is_public_number").val();
-			    pageData["goods_inf"] = $("#goods_inf").val();
-			    pageData["ret_url"] = $("#ret_url").val();
+			    //pageData["amount"] = $("#amount").val();
+			    //pageData["goods_inf"] = $("#goods_inf").val();
+			    //pageData["ret_url"] = $("#ret_url").val();
 			    pageData["notify_url"] = $("#notify_url").val();
 			    
-			    $.ajax("/demo/officialAccoutPay",{
+			    $.ajax("/demo/getOpenID",{
 			    	method:"POST",
 			    	contentType :"application/json",
 			    	data:JSON.stringify(pageData),
@@ -97,7 +96,7 @@
 			<div class="form-group row">
 			  <label for="example-text-input" class="col-2 col-form-label">Merchant ID</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="3975" id="mer_id">
+			    <input class="form-control" type="text" value="8023" id="mer_id">
 			  </div>
 			</div>
 			
@@ -122,16 +121,9 @@
 			</div>
 			
 			<div class="form-group row">
-			  <label for="example-url-input" class="col-2 col-form-label">Return page after transaction</label>
-			  <div class="col-10">
-			    <input class="form-control" type="url" value="" id="ret_url">
-			  </div>
-			</div>
-			
-			<div class="form-group row">
 			  <label for="example-url-input" class="col-2 col-form-label">Notify URL</label>
 			  <div class="col-10">
-			    <input class="form-control" type="url" value="http://47.88.87.33:8088/demo/notifyWeChatPayResult?" id="notify_url">
+			    <input class="form-control" type="url" value="http://umpay.huiplus.com.cn:8088/demo/officialAccount.jsp" id="notify_url">
 			  </div>
 			</div>
 			
@@ -139,15 +131,6 @@
 				<input class="btn btn-primary" type="button" value="submit" id = "upload">
 	  		</div>
 	  
-		</div>
-	</div>
-	<div id = "step2" class="container">
-		<div class="row text-center">
-	        <div class="col-sm-6 col-sm-offset-3">
-	        <br><br> <h2 style="color:#0fad00">Success</h2>
-	        <img src="http://osmhotels.com//assets/check-true.jpg">
-	        <h3>The file information has been submitted.</h3>
-	        </div>
 		</div>
 	</div>
 	

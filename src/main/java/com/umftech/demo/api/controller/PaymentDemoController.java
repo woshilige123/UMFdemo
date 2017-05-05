@@ -201,7 +201,7 @@ public class PaymentDemoController {
 			// TODO
 			StringBuffer refundData = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 			refundData.append("<goods_data><sub_order>");
-			refundData.append("<sub_order_id>").append(orderId.substring(4).concat("1")).append("</sub_order_id>");
+			refundData.append("<sub_order_id>").append(orderId.substring(4)).append("</sub_order_id>");
 			refundData.append("<sub_order_type>2</sub_order_type>");
 			refundData.append("<sub_refund_amt>").append((String) map.get("refund_amt")).append("</sub_refund_amt>");
 			refundData.append("</sub_order>"+ "</goods_data>");
@@ -253,7 +253,6 @@ public class PaymentDemoController {
 			map.put("sign_type", "RSA");
 			map.put("version", "4.0");
 			map.put("res_format", "HTML");
-			map.put("order_type", "2");
 			try {
 				// get sign
 				ReqData reqDataPost = Mer2Plat_v40.makeReqDataByPost(map);

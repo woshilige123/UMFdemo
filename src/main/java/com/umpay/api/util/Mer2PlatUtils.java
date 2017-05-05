@@ -51,7 +51,7 @@ public class Mer2PlatUtils {
 		
 		//组织请求联动的url 
 		ReqData data = new ReqData();
-		String url = getUrl(appname,Const.PAYSERVICE);
+		String url = getUrl(appname,map.get("is_wechat_accout"));
 		log_.debug("url=" + url);
 		
 		//校验请求数据格式、生成签名
@@ -107,13 +107,13 @@ public class Mer2PlatUtils {
 		doEncrypt(map);
 		
 		//组织请求联动的url
-		String url = getUrl(appname,Const.PAYSERVICE);
+		String url = getUrl(appname,map.get("is_wechat_accout"));
+		
 		log_.debug("url=" + url);
 		if(obj==null ||StringUtil.isEmpty(method) ){
 			log_.info("Parameter is incorrect : Obj or method is null.");
 			throw new RuntimeException("Parameter is incorrect : Obj or method is null.");
 		}
-		
 		
 		//获取签名
 		Map returnMap = PlainUtil.getPlainNocheck(obj);
@@ -189,12 +189,18 @@ public class Mer2PlatUtils {
 		}
 	}
 	
-	private static String getUrl(String appname,String funcode){
+	private static String getUrl(String appname,String isWeChat){
 		//获取配置的平台URL
 		String platurl =  ProFileUtil.getUrlPix();
+		String url = "";
 		if(platurl==null||"".equals(platurl.trim())){
 			platurl = "http://pay.soopay.net";
 		}
-		return platurl +"/" + appname+ Const.UMPAYSTIE_SERVICE;
+		if("Y".equals(isWeChat)){
+			url = platurl +"/" + appname+ "/pay/cbPreAuthDirect.do";
+		}else{
+			url = platurl +"/" + appname+ Const.UMPAYSTIE_SERVICE;
+		}
+		return url;
 	}
 }

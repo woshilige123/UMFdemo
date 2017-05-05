@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Insert title here</title>
+	<title>Check refund information</title>
 	<script
 	src="https://code.jquery.com/jquery-3.1.1.js"
 	integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
@@ -13,10 +13,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script>
 		$(document).ready(function(){
-			$("#step2").hide();
+		    $("#successful").hide();
+			$("#alerts").hide();
 			$("#check").click(function(){
+	        	$("#alerts").slideUp();
 	        	var pageData =  new Object();
-			    pageData["refund_no"] = $("#refund_no").val();
+	        	pageData["refund_no"] = $("#refund_no").val();
 			    pageData["mer_id"] = $("#mer_id").val();
 			    
 			    $.ajax("/demo/demo/checkRefundStatus",{
@@ -26,14 +28,17 @@
 			    	dataType:"json",
 			    	headers:{},
 			    	success:function(data, statusCode){
-			    		console.log(data);
-			    		console.log(statusCode);
-						$("p1").append(data.refundStatus);
-						$("p2").append(data.refundAmt);
-						$("p3").append(data.currency);
-						$("p4").append(data.refundCnyAmt);
-					    $("#step1").hide();
-					    $("#step2").show();
+			    		if(data.success){
+							$('#resMsg').html(data.retMsg);
+							$('#refund_status').text($('#refund_status').text() + data.refundStatus);
+							$('#refund_amount').text($('#refund_amount').text() + data.refundAmt);
+							$('#currency').text($('#currency').text() + data.currency);
+							$('#refundCnyAmt').text($('#refundCnyAmt').text() + data.refundCnyAmt);
+			    		    $("#successful").show();
+			    		}else{
+			    			$("#msg").text(data.retMsg);
+			    			$("#alerts").show();
+			    		}
 			    	},
 			    	error:function(err){
 			    		console.log(err);
@@ -41,40 +46,72 @@
 			    });
 
 			});
+
+		    //Show alert
+		    function alertMessage(message) {
+		        var timeOut;
+		        $("#alert999").slideDown();
+		        
+		        //Is autoclosing alert
+		        var delay = $(this).attr('data-delay');
+		        if(delay != undefined)
+		        {
+		            delay = parseInt(delay);
+		            clearTimeout(timeOut);
+		            timeOut = window.setTimeout(function() {
+		                    alert.slideUp();
+		                }, delay);
+		        }
+		    }
+		    //Close alert
+		    $('.page-alert .close').click(function(e) {
+		        e.preventDefault();
+		        $(this).closest('.page-alerts').slideUp();
+		    });
+		    
 		});
 		
 		
-		
 	</script>
-	<style type="text/css"> 
-		#step1{
-			margin-top: 200px;
-    		margin-left: 200px;
-		}
-	</style>
 </head>
 
 <body>
-	<div id = "step1">
-		<table>
-			<tr>
-	        	<th nowrap="nowrap">Merchant ID</th>
-	            <td nowrap="nowrap"><input type="text" id = "mer_id"></td>
-	        </tr>
-			<tr>
-	        	<th nowrap="nowrap">Refund No</th>
-	            <td nowrap="nowrap"><input type="text" id = "refund_no"></td>
-	        </tr>
-		</table>
-		<table>
-			<button type = "button" id = "check">Check</button>
-		</table>
-	</div>
-	<div id = "step2">
-		<p1>Refund status: </p1>
-		<p2>Refund amount: </p2>
-		<p3>Currency: </p3>
-		<p4>Refund amount(CNY): </p4>
+	<div class="container">
+		<div class="page-alerts" id = "alerts">
+			<div class="alert alert-danger page-alert" id="alert999">
+		        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+		        <p id = "msg"></p>
+		    </div>
+	    </div>
+	     <div id = "welcome" class="centered title"><h1>Check your order info here.</h1></div>
+     </div>
+     <hr class="featurette-divider"></hr>
+     
+	<div id = "step1" class="container">
+            <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>Merchant ID</label>
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "mer_id" value = "8023">
+              </div>
+            </div>
+	        <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>Refund No.</label>
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "refund_no">
+              </div>
+            </div>
+            
+            <div>
+  				<input type="button" class="btn btn-info"  id = "check" value="Check">
+		    </div>
+		    <div id = "successful" class="container">
+		        <div class="centered title"><h1 id = "resMsg"></h1>
+			        <p id = "refund_status">Refund status: </p>
+					<p id = "refund_amount">Refund amount: </p>
+					<p id = "currency">Currency: </p>
+					<p id = "refundCnyAmt">Refund amount(CNY): </p>
+				</div>
+	     	</div>
 	</div>
 </body>
 </html>

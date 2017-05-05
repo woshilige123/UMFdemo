@@ -31,7 +31,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.umftech.RestReturnTemp;
+import com.umftech.util.HttpClientUtil;
 import com.umpay.api.common.ReqData;
+import com.umpay.api.exception.ReqDataException;
 import com.umpay.api.exception.VerifyException;
 import com.umpay.api.paygate.v40.Mer2Plat_v40;
 import com.umpay.api.paygate.v40.Plat2Mer_v40;
@@ -45,9 +47,9 @@ public class WeChatPayOfficialAccountController {
 	 * 
 	 * @return String
 	 */
-	@RequestMapping(value = "/officialAccoutPay", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@RequestMapping(value = "/getOpenID", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String payByWeChatOfficialAccount(HttpServletRequest req, @RequestBody String reqBody, HttpServletResponse res){
+	public String getOpenID(HttpServletRequest req, @RequestBody String reqBody, HttpServletResponse res){
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, String> reqMap = new HashMap<String, String>();
 		try {
@@ -62,14 +64,13 @@ public class WeChatPayOfficialAccountController {
 	    orderId = date + orderId;
 	    
 	    // parameters
-		reqMap.put("service", "publicnumber_and_verticalcode");
+		reqMap.put("service", "cb_pre_auth_direct");
 		reqMap.put("charset", "UTF-8");
 		reqMap.put("sign_type", "RSA");
-		reqMap.put("res_format", "HTML");
 		reqMap.put("version", "4.0");
 		reqMap.put("order_id", orderId);
-		reqMap.put("mer_date", date); 
-		reqMap.put("amt_type", "RMB");
+		reqMap.put("is_wechat_accout", "Y");
+		
 		String getUrl = "";
 		try {
 			// use developer kit to get URL
@@ -93,123 +94,101 @@ public class WeChatPayOfficialAccountController {
 	}
 	
 	/**
-	 * Receive payment result from UMF
+	 * Call the WeChat Official Pay service to complete payment.
 	 * 
 	 * @return String
 	 */
-	@RequestMapping(value = "/notifyWeChatPayResult", method = {RequestMethod.POST, RequestMethod.GET})
+	@RequestMapping(value = "/createWeChatPayment", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String notifyResultListener(HttpServletRequest req){
-
-		Map<String, String> map = new HashMap<>();
-		StringBuilder retStr = new StringBuilder("<META NAME=\"MobilePayPlatform\" CONTENT=\"");
-		StringBuilder payResultStr = new StringBuilder();
-		Set<String> keySet = new HashSet<>();
-		keySet.add("mer_id");
-		keySet.add("sign_type");
-		keySet.add("version");
-		keySet.add("order_id");
-		keySet.add("mer_date");
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHMMSS");
-	    String time = format.format(new Date());
+	public String createWeChatPayment(HttpServletRequest req, @RequestBody String reqBody, HttpServletResponse res){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		Map<String, String> resMap = new HashMap<>();
 		try {
-			map = Plat2Mer_v40.getPlatNotifyData(req);
-			for(Map.Entry<String, String> entry : map.entrySet()){
-				payResultStr.append(entry.getKey());
-				payResultStr.append("=");
-				payResultStr.append(entry.getValue());
-				payResultStr.append("\n");
-				if(keySet.contains(entry.getKey())){
-					retStr.append(entry.getKey());
-					retStr.append("=");
-					retStr.append(entry.getValue());
-					retStr.append("&");
-				}
-			}
-			
-            //String retMsg = sendMail(payResultStr.toString());
-			try{
-	        	String name = "/home/test/uattest/" + map.get("mer_priv") + "_result.txt";
-	        	File writename = new File(name);
-	        	
-	        	if(!writename.exists()){
-	            	writename.createNewFile(); // 创建新文件  
-	            }
-	            BufferedWriter out = new BufferedWriter(new FileWriter(writename, true));
-	            StringBuilder fileContent = new StringBuilder();
-	            fileContent.append("order_id");
-	            fileContent.append("=");
-	            fileContent.append(map.get("order_id"));
-	            fileContent.append("&");
-	            fileContent.append("trade_state");
-	            fileContent.append("=");
-	            fileContent.append(map.get("trade_state"));
-	            fileContent.append("\n");
-	            out.write(fileContent.toString()); // \r\n即为换行  
-	            out.flush(); // 把缓存区内容压入文件  
-	            out.close(); // 最后记得关闭文件 
-	        } catch (Exception e) {
-	            e.printStackTrace(); 
-	        }
-			String retMsg = "";
-            if("".equals(retMsg)){
-            	retStr.append("ret_code=0000&");
-    			retStr.append("ret_msg= Test merchants result and notification response data &");
-    			retStr.append("sign=");
-    			retStr.append(map.get("sign"));
-    			retStr.append("\" />");
-            }else{
-            	retStr = new StringBuilder(retMsg);
-            }
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		// orderId
+	    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+	    String merDate = format.format(new Date());
+	    String amount = "1";
+		String goodsData = editGoodsData(reqMap.get("order_id"), amount);
+		
+	    // parameters
+		reqMap.put("service", "cb_active_scancode_pay");
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("mer_id", "8023");
+		reqMap.put("ret_url", "http://47.88.87.33:8088/demo/payment_success.jsp");
+		reqMap.put("sign_type", "RSA");
+		reqMap.put("res_format", "HTML");
+		reqMap.put("version", "4.0");
+		reqMap.put("mer_date", merDate); 
+		reqMap.put("currency", "CNY");
+		reqMap.put("user_ip", "10.10.10.10");
+		reqMap.put("goods_inf", "test");
+		reqMap.put("risk_expand", "A0001:123659973");
+		reqMap.put("amount", amount);
+		reqMap.put("goods_data", goodsData);
+		reqMap.put("pay_type", "WECHAT_OA");
+		reqMap.put("card_holder", "罗淳雅");
+		reqMap.put("identity_code", "431381198109106573");
+		reqMap.put("identity_type", "IDENTITY_CARD");
+		reqMap.put("mobile_id", "15012345678");
+		try {
+			// get sign
+			ReqData reqDataPost = Mer2Plat_v40.makeReqDataByPost(reqMap);
+			Map<String, String> fieldMap = new HashMap<>();
+			fieldMap = reqDataPost.getField();
+			String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
+			resMap = Plat2Mer_v40.getResData(resultString);
 		} catch (Exception e) {
 			e.printStackTrace();
-			retStr.append(e.getMessage());
-			retStr.append("\n");
-			retStr.append(time);
-			sendMail(retStr.toString());
 		}
-		return retStr.toString();
+		RestReturnTemp rs = new RestReturnTemp();
+		if("0000".equals(resMap.get("ret_code"))){
+			rs.setSuccess(true);
+			rs.setMsg("welcome");
+			Map<String, String> payInfoMap = getPayInfo(resMap.get("pay_info"));
+			rs.setAppId(payInfoMap.get("appId"));
+			rs.setTimeStamp(payInfoMap.get("timeStamp"));
+			rs.setPackageJson(payInfoMap.get("package"));
+			rs.setNonceStr(payInfoMap.get("nonceStr"));
+			rs.setPaySign(payInfoMap.get("paySign"));
+		}else{
+			rs.setRetMsg(resMap.get("ret_msg"));
+		}
+		String jsonInString = "{}";
+	
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
 	}
 	
-	/**
-	 * Send mail
-	 * 
-	 * @return String
-	 */
-	private String sendMail(String str){
-		//TODO
-		final String username = "kevinli@umpay.com";
-        final String password = "Woshilige123!";
-        String retMsg = "";
+	private String editGoodsData(String orderId, String amount){
+		StringBuffer goodsData = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		goodsData.append("<goods_data><sub_order>");
+		goodsData.append("<sub_order_id>").append(orderId.substring(4)).append("</sub_order_id>");
+		goodsData.append("<sub_order_amt>").append(amount).append("</sub_order_amt>");
 
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "cus-umpay.bestcloudwan.com");
-        props.put("mail.smtp.port", "25");
-        props.put("mail.smtp.ssl.trust", "cus-umpay.bestcloudwan.com");
-        
-        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password);
-            }
-        });
-        try {
+		goodsData.append("<sub_trans_code>02223022</sub_trans_code>");
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("kevinli@umpay.com"));
-            message.setRecipients(Message.RecipientType.TO,
-            InternetAddress.parse("kevinli@umpay.com"));
-            message.setSubject("A testing mail header !!!");
-            message.setText(str);
-            Transport.send(message);
-            System.out.println("Done");
-
-        } catch (MessagingException e) {
-            // throw new RuntimeException(e);
-        	retMsg = e.getMessage();
-            System.out.println();
-        }
-        return retMsg;
+		goodsData.append("</sub_order>"+ "</goods_data>");
+		return goodsData.toString();
+	}
+	
+	private Map<String, String> getPayInfo(String payinfo){
+		Map<String, String> map = new HashMap<>();
+		payinfo = payinfo.replace("{", "");
+		payinfo = payinfo.replace("}", "");
+		payinfo = payinfo.replace("\"", "");
+		String[] payInfoArr = payinfo.split(",");
+		for(String str : payInfoArr){
+			map.put(str.split(":")[0], str.split(":")[1]);
+		}
+		return map;
 	}
 }
