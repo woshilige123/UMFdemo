@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class=" js cssanimations">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+	<p id="query_str"></p>
+
+	parameter1:
+	<br>
+	<input type="text" name="firstname" id="param1">
+	<br> parameter2:
+	<br>
+	<input type="text" name="lastname" id="param2">
+	<br>
+	parameter3:
+	<br>
+	<input type="text" name="firstname" id="param3">
+	<br> parameter4:
+	<br>
+	<input type="text" name="lastname" id="param4">
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="assets/js/jquery.min.js"></script>
+
+	<script>
+		$(document).ready(function() {
+
+			var query = window.location.search.substring(1);
+			$("#query_str").append(query);
+			var query_string = {};
+			var vars = query.split("&");
+			  for (var i=0;i<vars.length;i++) {
+			    var pair = vars[i].split("=");
+			        // If first entry with this name
+			    if (typeof query_string[pair[0]] === "undefined") {
+			      query_string[pair[0]] = decodeURIComponent(pair[1]);
+			        // If second entry with this name
+			    } else if (typeof query_string[pair[0]] === "string") {
+			      var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+			      query_string[pair[0]] = arr;
+			        // If third or later entry with this name
+			    } else {
+			      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+			    }
+			  } 
+			debugger;
+			$("#param1").val(query_string["param1"]);
+			$("#param2").val(query_string["param2"]);
+			
+			var pageData = {
+			    "param1": "20170217",
+			    "param2": "https://abc.com/asdf/sadf/asdf"
+			};
+			
+			$.ajax("/demo/demo/test1",{
+		    	method:"POST",
+		    	contentType :"application/json",
+		    	data:JSON.stringify(pageData),
+		    	dataType:"json",
+		    	headers:{},
+		    	success:function(data, statusCode){
+	    			$("#param3").val(data.param1);
+	    			$("#param4").val(data.test_param);
+		    	},
+		    	error:function(err){
+		    		console.log(err);
+		    	}
+		    });
+
+		});
+	</script>
+
+</body>
+</html>
