@@ -1,5 +1,4 @@
-<html>
-<body>
-<h2>index page</h2>
-</body>
-</html>
+<%
+    String redirectURL = "/demo/html/index.html";
+    response.sendRedirect(redirectURL);
+%>
