@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -509,17 +509,68 @@
             </div>
             <div id="collapse-payment-method" class="panel-collapse collapse">
               <div class="panel-body">
-                <p>Select your payment preferences</p>
-                <div class="radio">
-                  <label><input type="radio" name="payment" value="card">Credit or Debit Card</label>
+                <p>The citizen id and name are required by Chinese government.</p>
+                <div class="form-group required">
+                  <label class="control-label" for="input-citizen-id">Chinese Citizen ID</label>
+                  <input type="text" name="input-citizen-id" placeholder="Citizen ID" id="input-citizen-id" class="form-control input-lg" value="623131198701110017">
                 </div>
-                <div class="radio">
-                  <label><input type="radio" name="payment" value="QRcode">Scanning QR code with WeChat or Alipay</label>
+
+                <div class="form-group required">
+                  <label class="control-label" for="input-citizen-name">Citizen Name in Chinese</label>
+                  <input type="text" name="input-citizen-name" placeholder="中文姓名" id="input-citizen-name" class="form-control input-lg" value="张三">
                 </div>
-                <div class="radio">
-                  <label><input id = "wechat-inApp-web-based" type="radio" name="payment" value="wechat-inApp-webBased">WeChat In-App Web-based</label>
+
+                <h4>Select your payment preferences</h4>
+                <div class="form-group">
+                  <div class="col-sm-10">
+                      <label class="radio-inline">
+                            <input type="radio" name="newsletter" value="CREDIT_CARD">
+                            UnionPay Credit Card
+                      </label>
+                      <label class="radio-inline">
+                            <input type="radio" name="newsletter" value="DEBIT_CARD" >
+                            UnionPay Debit Card
+                      </label>
+                    <label class="radio-inline">
+                          <input type="radio" name="newsletter" value="WECHAT_SCAN">
+                          WeChatPay Scan QR Code
+                    </label>
+                    <label class="radio-inline">
+                          <input type="radio" name="newsletter" value="ALIPAY_SCAN" >
+                          AliPay Scan QR Code
+                    </label>
+                  </div>
                 </div>
-                <div class="buttons">
+
+                <div class="col-sm-7 hidden" id="credit_card_info">
+                   <br/>
+                  <div class="form-group">
+                    <label class="control-label" for="input-card-no">Card Number</label>
+                    <input type="text" name="input-card-no" value="" placeholder="Card Number" id="input-card-no" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-card-cvv">CVV2</label>
+                    <input type="text" name="input-card-cvv" value="" placeholder="Password" id="input-card-no" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-phone-number">Phone Number (Which linked with the bank card)</label>
+                    <input type="text" name="input-phone-number" value="" placeholder="Phone Number" id="input-phone-number" class="form-control">
+                  </div>
+                </div>
+
+                <div class="col-sm-7 hidden" id="debit_card_info">
+                  <br/>
+                  <div class="form-group">
+                    <label class="control-label" for="input-card-no">Card Number</label>
+                    <input type="text" name="input-card-no" value="" placeholder="Card Number" id="input-card-no" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-phone-number">Phone Number (Which linked with the bank card)</label>
+                    <input type="text" name="input-phone-number" value="" placeholder="Phone Number" id="input-phone-number" class="form-control">
+                  </div>
+                </div>
+
+                <div class="buttons col-sm-10">
                   <div class="pull-right">
                     <input type="button" value="Continue" id="button-payment-method" data-loading-text="Loading..." class="btn btn-primary">
                   </div>
@@ -675,6 +726,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="assets/js/bootstrap.min.js"></script>
   <script src="assets/js/common.js"></script>
+  <script src="assets/js/demo_checkout.js"></script>
   <script>
     $(document).ready(function () {
       $("#button-delivery-method").bind("click", function () {
