@@ -153,6 +153,19 @@ public class Mer2PlatUtils {
 		}
 	}
 	private static void doEncrypt(Map map) throws ReqDataException {
+		//从配置文件获取需要加密的要素
+		String encryptParamters = StringUtil.trim(ProFileUtil.getPro("Encrypt.Paramters"));
+		String[] params = encryptParamters.split(",");
+		HashSet encryptId = new HashSet();
+		for(String param:params){
+			if(StringUtil.isNotEmpty(param)){
+				encryptId.add(param);
+			}
+		}
+		//如果没有获取到，去默认的
+		if(encryptId.size()==0){
+			encryptId = ServiceMapUtil.getEncryptId();
+		}
 		Iterator it = map.keySet().iterator();
 		while(it.hasNext()){
 			String key = it.next().toString();
@@ -161,22 +174,6 @@ public class Mer2PlatUtils {
 			if(ob!= null){
 				value = ob.toString();
 			}
-			
-			//从配置文件获取需要加密的要素
-			String encryptParamters = StringUtil.trim(ProFileUtil.getPro("Encrypt.Paramters"));
-			String[] params = encryptParamters.split(",");
-			HashSet encryptId = new HashSet();
-			for(String param:params){
-				if(StringUtil.isNotEmpty(param)){
-					encryptId.add(param);
-				}
-			}
-			
-			//如果没有获取到，去默认的
-			if(encryptId.size()==0){
-				encryptId = ServiceMapUtil.getEncryptId();
-			}
-			
 			try{
 				if(encryptId.contains(key)&& StringUtil.isNotEmpty(value)){
 					value = CipherUtil.Encrypt(value);
