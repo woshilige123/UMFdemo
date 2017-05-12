@@ -332,23 +332,23 @@
                       <legend>Your personal details</legend>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-firstname">First Name</label>
-                        <input type="text" name="firstname" value="" placeholder="First Name" id="input-billing-firstname" class="form-control" value="Kevin">
+                        <input type="text" name="firstname" placeholder="First Name" id="input-billing-firstname" class="form-control" value="Peter">
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-lastname">Last Name</label>
-                        <input type="text" name="lastname" value="" placeholder="Last Name" id="input-billing-lastname" class="form-control">
+                        <input type="text" name="lastname" placeholder="Last Name" id="input-billing-lastname" class="form-control" value="Pan">
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-email">Email</label>
-                        <input type="text" name="email" value="" placeholder="Email" id="input-billing-email" class="form-control">
+                        <input type="text" name="email" placeholder="Email" id="input-billing-email" class="form-control" value="peterpan@umftech.com">
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-phone">Phone</label>
-                        <input type="text" name="phone" value="" placeholder="Phone" id="input-billing-phone" class="form-control">
+                        <input type="text" name="phone" placeholder="Phone" id="input-billing-phone" class="form-control" value="1234567890">
                       </div>
                       <div class="form-group">
                         <label class="control-label" for="input-billing-fax">Fax</label>
-                        <input type="text" name="fax" value="" placeholder="Fax" id="input-billing-fax" class="form-control">
+                        <input type="text" name="fax" placeholder="Fax" id="input-billing-fax" class="form-control">
                       </div>
                     </fieldset>
                   </div>
@@ -357,11 +357,11 @@
                       <legend>Your address</legend>
                       <div class="form-group">
                         <label class="control-label" for="input-billing-company">Company</label>
-                        <input type="text" name="company" value="" placeholder="Company" id="input-billing-company" class="form-control">
+                        <input type="text" name="company" value="UMFtech" placeholder="Company" id="input-billing-company" class="form-control">
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-address-1">Address 1</label>
-                        <input type="text" name="address_1" value="" placeholder="Address 1" id="input-billing-address-1" class="form-control">
+                        <input type="text" name="address_1" value="15 N Ellsworth Ave" placeholder="Address 1" id="input-billing-address-1" class="form-control">
                       </div>
                       <div class="form-group">
                         <label class="control-label" for="input-billing-address-2">Address 2</label>
@@ -369,11 +369,11 @@
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-city">City</label>
-                        <input type="text" name="city" value="" placeholder="City" id="input-billing-city" class="form-control">
+                        <input type="text" name="city" value="San Mateo" placeholder="City" id="input-billing-city" class="form-control">
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-postcode">Postcode</label>
-                        <input type="text" name="postcode" value="" placeholder="Postcode" id="input-billing-postcode" class="form-control">
+                        <input type="text" name="postcode" value="94401" placeholder="Postcode" id="input-billing-postcode" class="form-control">
                       </div>
                       <div class="form-group required">
                         <label class="control-label" for="input-billing-country">Country</label>
@@ -385,7 +385,7 @@
                         <label class="control-label" for="input-billing-zone">Region / State</label>
                         <select name="zone_id" id="input-billing-zone" class="form-control">
                             <option value="">--- Please Select ---</option>
-                            <option value="">California</option>
+                            <option value="" selected="true">California</option>
                           </select>
                       </div>
                     </fieldset>
@@ -404,20 +404,83 @@
           <!-- Delivery Details -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a id="step2" href="#collapse-delivery" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 2: Currency <i class="fa fa-angle-down"></i></a></h4>
+              <h4 class="panel-title"><a id="step2" href="#collapse-delivery" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 2: Review <i class="fa fa-angle-down"></i></a></h4>
             </div>
             <div id="collapse-delivery" class="panel-collapse collapse">
               <div class="panel-body">
-                <div class="radio">
+                <div class="radio" id="currency">
                   <label>
-                      <input type="radio" name="USD" id="payment_usd" >
-                      Pay by USD
+                      <input type="radio" name="price" value="USD">
+                      Price in USD
                     </label>
                   <label>
-                      <input type="radio" name="CNY" value="" checked="checked">
-                      Pay by CNY
+                      <input type="radio" name="price" value="CNY">
+                      Price in CNY
                     </label>
                 </div>
+              </div>
+              <div class="panel-body">
+                <div class="table-responsive" id="CNYprice">
+                  <table class="table">
+                    <tfoot>
+                      <tr>
+                        <td colspan="4" class="text-left"><strong>Total(USD):</strong></td>
+                        <td class="text-left">$1,186.00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-left"><strong>Current Exchange Rates:</strong></td>
+                        <td class="text-left">6.9027</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-left"><strong>Total(CNY):</strong></td>
+                        <td class="text-left" id="amount" value="1186">¥8,186.60</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <td class="text-left">Product Name</td>
+                        <td class="text-left">Model</td>
+                        <td class="text-right">Quantity</td>
+                        <td class="text-right">Unit Price</td>
+                        <td class="text-right">Total</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-left">
+                          <a href="#">Waxed canvas laptop bag Navy</a>
+                        </td>
+                        <td class="text-left">LB002</td>
+                        <td class="text-right">1</td>
+                        <td class="text-right">$980.00</td>
+                        <td class="text-right">$980.00</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4" class="text-right"><strong>Sub-Total:</strong></td>
+                        <td class="text-right">$980.00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-right"><strong>Shipping:</strong></td>
+                        <td class="text-right">$15.00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-right"><strong>Tax:</strong></td>
+                        <td class="text-right">$80.00</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                        <td class="text-right" id="amount" value="1186">$1,186.00</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                
                 <div class="buttons">
                   <div class="pull-right">
                     <input type="button" value="Continue" id="button-currency-method" data-loading-text="Loading..." class="btn btn-primary">
@@ -683,8 +746,14 @@
       $("#button-payment-method").bind("click", function () {
         $("#step4").click();
       });
-
-      $("#payment_usd").attr("disabled", "true");
+      $("input[type=radio][name=price]").change(function() {
+        var $currency = $('#currency input:radio:checked').val()
+        if ($currency == "USD") {
+			    $("#CNYprice").hide();
+        }else {
+          $("#CNYprice").show();
+        }
+      });
       $("#wechat-inApp-web-based").attr("disabled", "true");
 
       $("#submit").bind("click", function () {
