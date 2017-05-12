@@ -21,7 +21,15 @@
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+  <style>
+    .payment_type{
+      height: 60px;
+    }
 
+    .img_radio{
+      margin-top:24px;
+    }
+    </style>
 </head>
 
 <body>
@@ -401,27 +409,29 @@
           </div>
           <!--/ Billing Details -->
 
-          <!-- Delivery Details -->
+          <!-- Delivery Details -->          
+          
+
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title"><a id="step2" href="#collapse-delivery" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 2: Review <i class="fa fa-angle-down"></i></a></h4>
             </div>
+
             <div id="collapse-delivery" class="panel-collapse collapse">
               <div class="panel-body">
-                <div class="radio" id="currency">
-                  <label>
-                      <input type="radio" name="price" value="USD">
-                      Price in USD
-                    </label>
-                  <label>
-                      <input type="radio" name="price" value="CNY">
-                      Price in CNY
-                    </label>
-                </div>
-              </div>
-              <div class="panel-body">
+                  <div>
+                      <label class="radio-inline">
+                            <input type="radio" name="price" value="USD">
+                            Price in USD
+                      </label>
+                      <label class="radio-inline">
+                            <input type="radio" name="price" value="CNY">
+                            Price in CNY
+                      </label>
+                  </div>
+                <br/>
                 <div class="table-responsive" id="CNYprice">
-                  <table class="table">
+                  <table class="table" style="width: 25%;">
                     <tfoot>
                       <tr>
                         <td colspan="4" class="text-left"><strong>Total(USD):</strong></td>
@@ -438,6 +448,7 @@
                     </tfoot>
                   </table>
                 </div>
+                <br/>
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
@@ -480,7 +491,7 @@
                     </tfoot>
                   </table>
                 </div>
-                
+
                 <div class="buttons">
                   <div class="pull-right">
                     <input type="button" value="Continue" id="button-currency-method" data-loading-text="Loading..." class="btn btn-primary">
@@ -509,70 +520,103 @@
             </div>
             <div id="collapse-payment-method" class="panel-collapse collapse">
               <div class="panel-body">
-                <p>The citizen id and name are required by Chinese government.</p>
-                <div class="form-group required">
-                  <label class="control-label" for="input-citizen-id">Chinese Citizen ID</label>
-                  <input type="text" name="input-citizen-id" placeholder="Citizen ID" id="input-citizen-id" class="form-control input-lg" value="623131198701110017">
-                </div>
-
-                <div class="form-group required">
-                  <label class="control-label" for="input-citizen-name">Citizen Name in Chinese</label>
-                  <input type="text" name="input-citizen-name" placeholder="中文姓名" id="input-citizen-name" class="form-control input-lg" value="张三">
-                </div>
 
                 <h4>Select your payment preferences</h4>
                 <div class="form-group">
-                  <div class="col-sm-10">
-                      <label class="radio-inline">
-                            <input type="radio" name="newsletter" value="CREDIT_CARD">
-                            UnionPay Credit Card
+                  <div class="col-sm-10" id="pay_type_radio">
+                      <label class="radio-inline payment_type">
+                            <input type="radio" name="payment_type" value="UNIONPAY_CARD" style="margin-top:24px" checked="true">
+                            <img src="assets/image/payment/Unionpay.png"  height="60" alt="UnionPay">
                       </label>
-                      <label class="radio-inline">
-                            <input type="radio" name="newsletter" value="DEBIT_CARD" >
-                            UnionPay Debit Card
-                      </label>
-                    <label class="radio-inline">
-                          <input type="radio" name="newsletter" value="WECHAT_SCAN">
-                          WeChatPay Scan QR Code
+                    <label class="radio-inline payment_type">
+                          <input type="radio" name="payment_type" value="WECHAT_SCAN" style="margin-top:24px">
+                          <img src="assets/image/payment/wechatpay.png"  height="60" alt="WeChatPay">
+                         
                     </label>
-                    <label class="radio-inline">
-                          <input type="radio" name="newsletter" value="ALIPAY_SCAN" >
-                          AliPay Scan QR Code
+                    <label class="radio-inline payment_type">
+                          <input type="radio" name="payment_type" value="ALIPAY_SCAN" style="margin-top:24px">
+                          <img src="assets/image/payment/alipay.png"  height="60" alt="Alipay">
                     </label>
                   </div>
                 </div>
-
-                <div class="col-sm-7 hidden" id="credit_card_info">
+                <div class="col-sm-7" id="unionpay_card_info">
                    <br/>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">Card Number</label>
                     <input type="text" name="input-card-no" value="" placeholder="Card Number" id="input-card-no" class="form-control">
                   </div>
+                </div>
+
+                <div class="col-sm-7 hidden" id="app_scan_info">
+                   <br/>
                   <div class="form-group">
-                    <label class="control-label" for="input-card-cvv">CVV2</label>
-                    <input type="text" name="input-card-cvv" value="" placeholder="Password" id="input-card-no" class="form-control">
+                    <label class="control-label" for="input-card-no">Name</label>
+                    <input type="text" name="input-card-no" value="" placeholder="例：张三" id="name_app" class="form-control">
                   </div>
                   <div class="form-group">
-                    <label class="control-label" for="input-phone-number">Phone Number (Which linked with the bank card)</label>
-                    <input type="text" name="input-phone-number" value="" placeholder="Phone Number" id="input-phone-number" class="form-control">
+                    <label class="control-label" for="input-app-id-type">Select Official Document ID Type</label>
+                    <select name="id_type" id="input-app-id-type" class="form-control">
+                        <option value="IDENTITY_CARD">IDENTITY_CARD</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-card-no">ID Number</label>
+                    <input type="text" name="input-id-no" value="" placeholder="ID Number" id="input-id-no" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-card-no">Phone</label>
+                    <input type="text" name="input-phone-no" value="" placeholder="Phone" id="input-iphone-no" class="form-control">
                   </div>
                 </div>
 
-                <div class="col-sm-7 hidden" id="debit_card_info">
+                <div class="col-sm-7 hidden" id="unionpay_step2">
                   <br/>
                   <div class="form-group">
+                    <label class="control-label" for="input-card-no">Card Type</label>
+                    <p type="text" name="input-card-no" id="card_type_step2" value="" readonly="" class="form-control">
+                  </div>
+                  <div class="form-group">
                     <label class="control-label" for="input-card-no">Card Number</label>
-                    <input type="text" name="input-card-no" value="" placeholder="Card Number" id="input-card-no" class="form-control">
+                    <input type="text" name="input-card-no" id="card_no_step2" value="" readonly="" class="form-control">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-citizen-name">Name on Card</label>
+                    <input type="text" name="input-citizen-name" placeholder="Name on Card" id="input-name" class="form-control input-lg" value="张三">
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-payment-id">Select Official Document ID Type</label>
+                    <select name="id_type" id="input-payment-id-type" class="form-control">
+                        <option value="IDENTITY_CARD">IDENTITY_CARD</option>
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-citizen-id">ID</label>
+                    <input type="text" name="input-citizen-id" placeholder="ID" id="input-id" class="form-control input-lg" value="623131198701110017">
+                  </div>
+                  <div class="form-group" id="cvv2">
+                    <label class="control-label" for="input-card-cvv">CVV2</label>
+                    <input type="text" name="input-card-cvv" value="" placeholder="CVV2" id="input-card-cvv2" class="form-control">
+                  </div>
+                  <div class="form-group" id="expiration_data">
+                    <label class="control-label" for="input-card-exp">Expiration Date</label>
+                    <input type="text" name="input-card-cvv" value="" placeholder="Expiration Date" id="input-expiration-date" class="form-control">
                   </div>
                   <div class="form-group">
                     <label class="control-label" for="input-phone-number">Phone Number (Which linked with the bank card)</label>
                     <input type="text" name="input-phone-number" value="" placeholder="Phone Number" id="input-phone-number" class="form-control">
                   </div>
+                  <div class="form-group">
+                    <label class="control-label" for="input-phone-number">Enter the code sent to your mobile</label>
+                    <input type="text" name="input-phone-number" value="" id="input-verify-code" class="form-control" disabled="disabled">
+                    <input type="button" value="Send code" id="get_verify_code" data-loading-text="Loading..." class="btn btn-primary">
+                  </div>
                 </div>
-
-                <div class="buttons col-sm-10">
+                
+                <div class="buttons col-sm-10" id="getCardBin">
+                  <input type="button" value="Previous" id="button-payment-pre" data-loading-text="Loading..." class="btn btn-primary hidden">
                   <div class="pull-right">
-                    <input type="button" value="Continue" id="button-payment-method" data-loading-text="Loading..." class="btn btn-primary">
+                    
+                    <input type="button" value="Next" id="button-payment-next" data-loading-text="Loading..." class="btn btn-primary">
                   </div>
                 </div>
               </div>
@@ -583,7 +627,7 @@
           <!-- Confirm Order -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a id="step4" href="#collapse-confirm" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 4: Confirm Order <i class="fa fa-angle-down"></i></a></h4>
+              <h4 class="panel-title"><a id="step4" href="#collapse-confirm" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 4: Confirmatino <i class="fa fa-angle-down"></i></a></h4>
             </div>
             <div id="collapse-confirm" class="panel-collapse collapse">
               <div class="panel-body">
@@ -727,85 +771,6 @@
   <script src="assets/js/bootstrap.min.js"></script>
   <script src="assets/js/common.js"></script>
   <script src="assets/js/demo_checkout.js"></script>
-  <script>
-    $(document).ready(function () {
-      $("#button-delivery-method").bind("click", function () {
-        $("#step2").click();
-      });
-      $("#button-currency-method").bind("click", function () {
-        $("#step3").click();
-      });
-      $("#button-payment-method").bind("click", function () {
-        $("#step4").click();
-      });
-      $("input[type=radio][name=price]").change(function() {
-        var $currency = $('#currency input:radio:checked').val()
-        if ($currency == "USD") {
-			    $("#CNYprice").hide();
-        }else {
-          $("#CNYprice").show();
-        }
-      });
-      $("#wechat-inApp-web-based").attr("disabled", "true");
-
-      $("#submit").bind("click", function () {
-        var pageData = new Object();
-        var payType = $("input[name='payment']:checked").val();
-        pageData["pay_type"] = $("#pay_type").val();
-        pageData["amount"] = $("#amount").val();
-        pageData["mer_id"] = $("#mer_id").val();
-        pageData["card_holder"] = $("#card_holder").val();
-        pageData["identity_type"] = $("#identity_type").val();
-        pageData["identity_code"] = $("#identity_code").val();
-        pageData["notify_url"] = $("#notify_url").val();
-        if (payType == "card") {
-          $.ajax("/demo/demo/scancodePay", {
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(pageData),
-            dataType: "json",
-            headers: {},
-            success: function (data, statusCode) {
-              if (data.success) {
-                $('#resMsg').html(data.retMsg);
-                $("#welcome").hide();
-                $('#code').qrcode(data.payUrl);
-              } else {
-                $("#msg").text(data.retMsg);
-                $("#alerts").show();
-              }
-            },
-            error: function (err) {
-              console.log(err);
-            }
-          });
-        } else {
-          $.ajax("/demo/demo/scancodePay", {
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(pageData),
-            dataType: "json",
-            headers: {},
-            success: function (data, statusCode) {
-              if (data.success) {
-                $('#resMsg').html(data.retMsg);
-                $("#welcome").hide();
-                $('#code').qrcode(data.payUrl);
-              } else {
-                $("#msg").text(data.retMsg);
-                $("#alerts").show();
-              }
-            },
-            error: function (err) {
-              console.log(err);
-            }
-          });
-        }
-
-
-      });
-    });
-  </script>
 </body>
 
 </html>
