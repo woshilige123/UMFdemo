@@ -16,7 +16,7 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file://111 -->
   <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -493,6 +493,13 @@
                     <label class="control-label" for="input-phone-number">Phone Number (Which linked with the bank card)</label>
                     <input type="text" name="input-phone-number" value="" placeholder="Phone Number" id="input-phone-number" class="form-control">
                   </div>
+                  <div id="card_info">
+                  	<p class="error"><strong id="err_msg"></strong></p>
+                  	<p class="text-center"><strong id="bank_name"></strong></p>
+                  	<p class="text-center"><strong id="bank_code"></strong></p>
+                  	<p class="text-center"><strong id="bank_card_type"></strong></p>
+                  	<p class="text-center"><strong id="card_type_name"></strong></p>
+                  </div>
                 </div>
 
                 <div class="col-sm-7 hidden" id="debit_card_info">
@@ -663,6 +670,7 @@
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="assets/js/bootstrap.min.js"></script>
   <script src="assets/js/common.js"></script>
+  <script src="assets/js/demo_cardbin.js"></script>
   <script src="assets/js/demo_checkout.js"></script>
   <script>
     $(document).ready(function () {
