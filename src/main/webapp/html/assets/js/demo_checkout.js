@@ -110,6 +110,17 @@ $(document).ready(function(){
 		$("#"+targetVal.toLowerCase()+"_info").removeClass("hidden");
 	});
 	
+	var cardPrefix;
+	$("#input-card-no").on("keyup",function(e){
+		var targetVal = $(e.target).val();
+		console.log("change");
+		console.log(targetVal);
+		if(targetVal.length>=15){
+			var cardInfo = getCardInfo(targetVal);
+			console.log(cardInfo);
+			setBankInfo(cardInfo);
+		}
+	});
     $("input[type=radio][name=price]").change(function(e) {
 		var targetVal = $(e.target).val();
 		$("#CNYprice").addClass("hidden");
@@ -120,4 +131,26 @@ $(document).ready(function(){
         }
     });
 });
+
+function getCardInfo(cardNum){
+	var cardInfo = getBankBin(cardNum);
+	if(cardInfo.error_msg){
+		console.log(cardInfo.error_msg);
+	}else{
+		return cardInfo;
+	}
+	return cardInfo;
+}
+
+function setBankInfo(cardInfo){
+	if(cardInfo.error_msg){
+		$("#err_msg").text(cardInfo.error_msg);
+	}else{
+		$("#bank_name").text(cardInfo.bankName);
+		$("#bank_code").text(cardInfo.bankCode);
+		$("#bank_card_type").text(cardInfo.cardType);
+		$("#card_type_name").text(cardInfo.cardTypeName);
+	}
+}
+
 
