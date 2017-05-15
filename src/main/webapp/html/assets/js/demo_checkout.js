@@ -133,6 +133,26 @@ $(document).ready(function(){
 				if(data.success){
 					$("#trade_no").attr("value", data.tradeNo);
 					pageData["trade_no"] = data.tradeNo;
+					$.ajax("/demo/demo/sendSms", {
+						method: "POST",
+						contentType: "application/json",
+						data: JSON.stringify(pageData),
+						dataType: "json",
+						headers: {},
+						success: function (data, statusCode) {
+							if(data.success){
+								$("#input-verify-code").prop('disabled', false);
+								$("#button-payment-next").prop("disabled", false);
+								$("#get_verify_code").prop("disabled", true);
+								settime(this);
+							}else{
+								alert(data.retMsg);
+							}
+						},
+						error: function (err) {
+							console.log(err);
+						}
+					});
 				}else{
 					$("#msg").text(data.retMsg);
 					$("#alerts").show();
@@ -144,26 +164,6 @@ $(document).ready(function(){
 			}
 		});
 		
-		$.ajax("/demo/demo/sendSms", {
-			method: "POST",
-			contentType: "application/json",
-			data: JSON.stringify(pageData),
-			dataType: "json",
-			headers: {},
-			success: function (data, statusCode) {
-				if(data.success){
-					$("#input-verify-code").prop('disabled', false);
-					$("#button-payment-next").prop("disabled", false);
-					$("#get_verify_code").prop("disabled", true);
-					settime(this);
-				}else{
-					alert(data.retMsg);
-				}
-			},
-			error: function (err) {
-				console.log(err);
-			}
-		});
 	});
 
 	$("#button-payment-pre").click(function(){
@@ -185,8 +185,6 @@ $(document).ready(function(){
 			$("#app_scan_info").removeClass("hidden");
         }
 	});
-	
-	
 
     $("input[type=radio][name=price]").change(function(e) {
 		var targetVal = $(e.target).val();
