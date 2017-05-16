@@ -543,7 +543,7 @@
                    <br/>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">Card Number</label>
-                    <input type="text" name="input-card-no" value="" placeholder="Card Number" id="input-card-no" class="form-control">
+                    <input type="text" name="input-card-no" value="6217580100004222451" placeholder="Card Number" id="input-card-no" class="form-control">
                   </div>
                 </div>
 
@@ -551,7 +551,7 @@
                    <br/>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">Name</label>
-                    <input type="text" name="input-card-no" value="" placeholder="例：张三" id="name_app" class="form-control">
+                    <input type="text" name="input-card-no" value="张三" placeholder="例：张三" id="name_app" class="form-control">
                   </div>
                   <div class="form-group">
                     <label class="control-label" for="input-app-id-type">Select Official Document ID Type</label>
@@ -561,11 +561,11 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">ID Number</label>
-                    <input type="text" name="input-id-no" value="" placeholder="ID Number" id="input-id-no" class="form-control">
+                    <input type="text" name="input-id-no" value="211321199001278274" placeholder="ID Number" id="input-id-no" class="form-control">
                   </div>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">Phone</label>
-                    <input type="text" name="input-phone-no" value="" placeholder="Phone" id="input-iphone-no" class="form-control">
+                    <input type="text" name="input-phone-no" value="13241359611" placeholder="Phone" id="input-iphone-no" class="form-control">
                   </div>
                   <!--/
                   <div id="card_info">
@@ -612,17 +612,13 @@
                   </div>
                   <div class="form-group">
                     <label class="control-label" for="input-phone-number">Phone Number (Which linked with the bank card)</label>
-                    <input type="text" name="input-phone-number" value="" placeholder="Phone Number" id="input-phone-number" class="form-control">
+                    <input type="text" name="input-phone-number" value="13241359611" placeholder="Phone Number" id="input-phone-number" class="form-control">
                   </div>
                   <div class="form-group">
                     <label class="control-label" for="input-phone-number">Enter the code sent to your mobile</label>
                     <input type="text" name="input-phone-number" value="" id="input-verify-code" class="form-control" disabled="disabled">
                     <input type="button" value="Send code" id="get_verify_code" data-loading-text="Loading..." class="btn btn-primary">
                   </div>
-                </div>
-                
-                <div class="col-sm-7 hidden" id="qrcode">
-                   
                 </div>
 
                 <div class="buttons col-sm-10" id="getCardBin">
@@ -649,7 +645,17 @@
               <h4 class="panel-title"><a id="step4" href="#collapse-confirm" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 4: Confirmatino <i class="fa fa-angle-down"></i></a></h4>
             </div>
             <div id="collapse-confirm" class="panel-collapse collapse">
-              <div class="panel-body">
+
+              <div id ="payinfo_wx" class="payinfo_wx hidden">
+                <p>
+                    Amount:<span class="price"><dfn>¥</dfn>50</span>，<label id="tipMsg">Please use WeChat to scan the QR code below to finish the payment.</label></p>
+                <div class="col-sm-7" id="qrcode" style="width: 100%;text-align: center;">
+                   
+                </div>
+              </div>
+
+
+              <div id="confirmation_card" class="panel-body hidden">
                 <!-- Container -->
                 <div class="container-fluid">
                   <div class="row">
@@ -685,7 +691,7 @@
                     <!--/ Content -->
                   </div>
                 </div>
-
+                
               </div>
             </div>
             <!--/ Container -->

@@ -95,7 +95,8 @@ $(document).ready(function(){
 					if(data.success){
 						$('#qrcode').qrcode(data.payUrl);
 						$("#app_scan_info").addClass("hidden");
-						$('#qrcode').removeClass("hidden");
+						$('#payinfo_wx').removeClass("hidden");
+						$("#step4").click();
 					}else{
 					}
 				},

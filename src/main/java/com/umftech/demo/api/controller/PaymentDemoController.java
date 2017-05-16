@@ -351,7 +351,7 @@ public class PaymentDemoController {
 			map.put("sign_type", "RSA");
 			map.put("version", "4.0");
 			map.put("res_format", "STRING");
-			map.put("notify_url", "www.google.com");
+			//map.put("notify_url", "www.google.com");
 			map.put("order_id", orderId);
 			map.put("mer_date", date);
 
