@@ -8,22 +8,21 @@
 </head>
 <body>
 	<p id="query_str"></p>
-	<form action="" id="" enctype="application/json">
-		parameter1:
-		<br>
-		<input type="text" name="firstname" id="param1">
-		<br> parameter2:
-		<br>
-		<input type="text" name="lastname" id="param2">
-		<br>
-		parameter3:
-		<br>
-		<input type="text" name="firstname" id="param3">
-		<br> parameter4:
-		<br>
-		<input type="text" name="lastname" id="param4">
-		<br>
-	</form>
+
+	parameter1:
+	<br>
+	<input type="text" name="firstname" id="param1">
+	<br> parameter2:
+	<br>
+	<input type="text" name="lastname" id="param2">
+	<br>
+	parameter3:
+	<br>
+	<input type="text" name="firstname" id="param3">
+	<br> parameter4:
+	<br>
+	<input type="text" name="lastname" id="param4">
+	<br>
 	<button type="button" id="btn1">Click Me!</button>
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -31,11 +30,9 @@
 
 	<script>
 		$(document).ready(function() {
-
 			//button bind
 			$("#btn1").bind("click",function(){
-				$("#sumbit_data").attr("action","/demo/test1")
-				$("#sumbit_data").submit();
+				alert("aaa");
 			})
 
 		});
