@@ -64,6 +64,7 @@ $(document).ready(function(){
 					headers:{},
 					success:function(data, statusCode){
 						if(data.success){
+							$("#confirmation_card").removeClass("hidden");
 							$("#step4").click();
 						}else{
 						}
@@ -108,7 +109,7 @@ $(document).ready(function(){
 	});
 
 	$("#get_verify_code").click(function(){
-		$("#button-payment-next").prop("disabled", false);
+		
 		var pageData = new Object();
 		pageData["amount"] = $("#amount").val();
         pageData["mer_id"] = "8023";
@@ -145,6 +146,7 @@ $(document).ready(function(){
 								$("#input-verify-code").prop('disabled', false);
 								$("#button-payment-next").prop("disabled", false);
 								$("#get_verify_code").prop("disabled", true);
+								$("#button-payment-next").prop("disabled", false);
 								settime(this);
 							}else{
 								alert(data.retMsg);

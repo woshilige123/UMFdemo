@@ -27,7 +27,7 @@
 			    	dataType:"json",
 			    	headers:{},
 			    	success:function(data, statusCode){
-			    		
+			    		 
 			    		if(data.success){
 			    			function onBridgeReady(){
 			    				
