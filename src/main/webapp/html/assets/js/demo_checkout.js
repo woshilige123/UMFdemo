@@ -8,12 +8,15 @@ $(document).ready(function(){
 	
 	$("#button-delivery-method").bind("click", function () {
         $("#step2").click();
+        gotoTopOfElement("step1");
     });
 	$("#button-currency-method").bind("click", function () {
         $("#step3").click();
+        gotoTopOfElement("step2");
     	});
     $("#button-payment-method").bind("click", function () {
         $("#step4").click();
+        gotoTopOfElement("step3");
     });
     $("#wechat-inApp-web-based").attr("disabled", "true");
 
@@ -151,6 +154,11 @@ function setBankInfo(cardInfo){
 		$("#bank_card_type").text(cardInfo.cardType);
 		$("#card_type_name").text(cardInfo.cardTypeName);
 	}
+}
+
+function gotoTopOfElement(objId){
+    var _targetTop = $('#'+objId).offset().top;  
+    jQuery("html,body").animate({scrollTop:_targetTop},300);  
 }
 
 
