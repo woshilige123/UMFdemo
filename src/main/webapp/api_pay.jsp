@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.text.*" %>   
+<%@ page import="java.util.*" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -29,6 +31,7 @@
 			    pageData["gate_id"] = $("#gate_id").val();
 			    pageData["notify_url"] = $("#notify_url").val();
 			    pageData["mer_cust_id"] = $("#mer_cust_id").val();
+			    pageData["order_id"] = $("#order_id").val();
 			    
 			    
 			    $.ajax("/demo/demo/getTradeNo",{
@@ -177,6 +180,14 @@
 	</script>
 </head>
 
+<%
+//general orderID
+String orderId=""+(Math.round(Math.random()*800000)+100000)+"";
+SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+String date = format.format(new Date());
+orderId = date + orderId;
+%>
+
 <body style="font-family: 'Open Sans', sans-serif;">
 <script src='https://js.stripe.com/v2/' type='text/javascript'></script>
 	<div class="container">
@@ -252,6 +263,15 @@
 				
               </div>
             </div>
+            
+            
+            <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>order ID</label>
+                <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "order_id" value="<%=orderId %>">
+              </div>
+            </div>
+            
             <div class="form-group row">
 			  <label for="example-url-input" class="col-2 col-form-label">Notify URL</label>
 			  <div class="col-10">
@@ -327,6 +347,8 @@
                 <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "usr_pay_agreement_id">
               </div>
             </div>
+                
+                
 	        <input type = "button" id = "sendSms" value="Send code">
 		<div>
 			<button class='form-control btn btn-primary submit-button'  id = "confirm" disabled="disabled">Place Order</button>

@@ -27,41 +27,9 @@
 			    	dataType:"json",
 			    	headers:{},
 			    	success:function(data, statusCode){
-			    		 
+			    		
 			    		if(data.success){
-			    			function onBridgeReady(){
-			    				
-			    				if(data.appId == "" || data.appId == null){
-			    					alert("appId不能为空");
-			    					return;
-			    				}
-			    				   WeixinJSBridge.invoke(
-			    						   'getBrandWCPayRequest', {
-			    								"appId":data.appId,
-			    								"nonceStr":data.nonceStr,
-			    								"package":data.packageJson,
-			    								"signType":"MD5",
-			    								"timeStamp":data.timeStamp,
-			    								"paySign":data.paySign
-			    						},
-			    				       
-			    				       function(res){     
-			    				           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-			    				        	   //window.location.href= data.url;
-			    				           }
-			    				       }
-			    				   ); 
-			    				}
-			    				if (typeof WeixinJSBridge == "undefined"){
-			    				   if( document.addEventListener ){
-			    				       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-			    				   }else if (document.attachEvent){
-			    				       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-			    				       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-			    				   }
-			    				}else{
-			    				   onBridgeReady();
-			    				}
+			    			
 			    				
 			    		}else{
 			    			$("#msg").text(data.retMsg);
@@ -111,9 +79,9 @@
     </div>
      <div class="container">
 	     <div class="form-group row">
-			  <label for="example-url-input" class="col-2 col-form-label">OpenID</label>
+			  <label for="example-url-input" class="col-2 col-form-label">OrderID</label>
 			  <div class="col-10">
-			 <input class="form-control" type="text" id="open_id" value="<%=request.getParameter("openid")%>">
+			 <input class="form-control" type="text" id="open_id" value="<%=request.getParameter("order_id")%>">
 			</div>
 		 </div>
 		 <div class="form-group row">

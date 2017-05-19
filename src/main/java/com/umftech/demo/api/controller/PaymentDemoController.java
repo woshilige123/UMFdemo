@@ -35,19 +35,20 @@ public class PaymentDemoController {
 		Map<String, String> map = new HashMap<String, String>();
 	    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 	    String date = format.format(new Date());
-	    String orderId=""+(Math.round(Math.random()*800000000)+100000)+"";
-	    orderId = date + orderId;
+	    //String orderId=""+(Math.round(Math.random()*800000000)+100000)+"";
+	    //orderId = date + orderId;
 
 		Map<String, String> resMap = new HashMap<>();
 		try {
 			map = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+			String orderId = map.get("order_id");
 			String goodsData = editGoodsData(orderId, (String) map.get("amount"));
 			map.put("service", "cb_apply_pay_shortcut");
 			map.put("charset", "UTF-8");
 			map.put("sign_type", "RSA");
 			map.put("version", "4.0");
 			map.put("res_format", "STRING");
-			map.put("order_id", orderId);
+			//map.put("order_id", orderId);
 			map.put("mer_date", date);
 			map.put("currency", "CNY");
 			map.put("goods_data", goodsData);
@@ -351,7 +352,7 @@ public class PaymentDemoController {
 			map.put("sign_type", "RSA");
 			map.put("version", "4.0");
 			map.put("res_format", "STRING");
-			map.put("notify_url", "www.google.com");
+			//map.put("notify_url", "www.google.com");
 			map.put("order_id", orderId);
 			map.put("mer_date", date);
 
