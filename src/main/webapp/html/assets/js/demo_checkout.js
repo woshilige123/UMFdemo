@@ -3,6 +3,8 @@
  */
 var step = 1;
 var countdown = 60;
+var myTimer;
+var sent=0;
 $(document).ready(function(){
 	$("#CNYprice").addClass("hidden");
 	$("#comfirmPay").addClass("hidden");
@@ -18,13 +20,43 @@ $(document).ready(function(){
     });
     $("#wechat-inApp-web-based").attr("disabled", "true");
 
+	$("#confirm_card_payment").click(function(){
+		var pageData =  new Object();
+				pageData["trade_no"] = $("#trade_no").val();
+				pageData["verify_code"] = $("#input-verify-code").val();
+				pageData["card_id"] = $("#card_no_step2").val();
+				pageData["card_holder"] = $("#card_holder").val();
+				pageData["valid_date"] = $("#input-expiration-date").val();
+				pageData["cvv2"] = $("#input-card-cvv2").val();
+				pageData["identity_code"] = $("#input-id").val();
+				pageData["media_id"] = $("#input-phone-number").val();
+        		pageData["mer_id"] = "8023";
+				
+				$.ajax("/demo/demo/confirmPayment",{
+					method:"POST",
+					contentType :"application/json",
+					data:JSON.stringify(pageData),
+					dataType:"json",
+					headers:{},
+					success:function(data, statusCode){
+						if(data.success){
+							$("#confirmation_card").removeClass("hidden");
+							window.location = getRootPath() + "/html/payment_success.html?order_id=" + data.orderId;
+						}else{
+						}
+					},
+					error:function(err){
+						console.log(err);
+						alert(data.retMsg);
+					}
+				});
+	});
 	$("#button-payment-next").click(function(){
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
 				$("#unionpay_card_info").addClass("hidden");
 				$("#unionpay_step2").removeClass("hidden");
-				$("#button-payment-next").attr("value", "Confirm");
 				$("#button-payment-next").prop("disabled", true);
 				$("#button-payment-pre").removeClass("hidden");
 				var targetVal = $("#input-card-no").val();
@@ -45,35 +77,8 @@ $(document).ready(function(){
 				}
 				step++;
 			}else{
-				var pageData =  new Object();
-				pageData["trade_no"] = $("#trade_no").val();
-				pageData["verify_code"] = $("#input-verify-code").val();
-				pageData["card_id"] = $("#card_no_step2").val();
-				pageData["card_holder"] = $("#card_holder").val();
-				pageData["valid_date"] = $("#input-expiration-date").val();
-				pageData["cvv2"] = $("#input-card-cvv2").val();
-				pageData["identity_code"] = $("#input-id").val();
-				pageData["media_id"] = $("#input-phone-number").val();
-        		pageData["mer_id"] = "8023";
-				
-				$.ajax("/demo/demo/confirmPayment",{
-					method:"POST",
-					contentType :"application/json",
-					data:JSON.stringify(pageData),
-					dataType:"json",
-					headers:{},
-					success:function(data, statusCode){
-						if(data.success){
-							$("#confirmation_card").removeClass("hidden");
-							$("#step4").click();
-						}else{
-						}
-					},
-					error:function(err){
-						console.log(err);
-						alert(data.retMsg);
-					}
-				});
+				$("#paybycard_conformation").removeClass("hidden");
+				$("#step4").click();
 			}
 		}else{
 			
@@ -95,6 +100,8 @@ $(document).ready(function(){
 				success:function(data, statusCode){
 					if(data.success){
 						$('#qrcode').qrcode(data.payUrl);
+						$("#order_id").attr("value", data.orderId);
+		    			$("#mer_date").attr("value", data.merDate);
 						$("#app_scan_info").addClass("hidden");
 						$('#payinfo_wx').removeClass("hidden");
 						$("#step4").click();
@@ -105,11 +112,12 @@ $(document).ready(function(){
 					console.log(err);
 				}
 			});
+			myTimer = setInterval(getPaymentStatus, 1000);
 		}
 	});
 
 	$("#get_verify_code").click(function(){
-		
+		sent = 1;
 		var pageData = new Object();
 		pageData["amount"] = $("#amount").val();
         pageData["mer_id"] = "8023";
@@ -135,6 +143,7 @@ $(document).ready(function(){
 				if(data.success){
 					$("#trade_no").attr("value", data.tradeNo);
 					pageData["trade_no"] = data.tradeNo;
+					delete pageData["amount"];
 					$.ajax("/demo/demo/sendSms", {
 						method: "POST",
 						contentType: "application/json",
@@ -144,7 +153,6 @@ $(document).ready(function(){
 						success: function (data, statusCode) {
 							if(data.success){
 								$("#input-verify-code").prop('disabled', false);
-								$("#button-payment-next").prop("disabled", false);
 								$("#get_verify_code").prop("disabled", true);
 								$("#button-payment-next").prop("disabled", false);
 								settime(this);
@@ -174,6 +182,7 @@ $(document).ready(function(){
 		$("#unionpay_step2").addClass("hidden");
 		$("#button-payment-next").attr("value", "Next");
 		$("#button-payment-pre").addClass("hidden");
+		$("#button-payment-next").prop("disabled", false);
 		step--;
 	});
 
@@ -181,11 +190,23 @@ $(document).ready(function(){
 		var targetVal = $(e.target).val();
 		$("#unionpay_card_info").addClass("hidden");
 		$("#app_scan_info").addClass("hidden");
+		$("#unionpay_step2").addClass("hidden");
+		$("#button-payment-next").prop("disabled", false);
 		if (targetVal == "UNIONPAY_CARD") {
-			$("#unionpay_card_info").removeClass("hidden");
-			step=1;
+			if(step==1){
+				$("#unionpay_card_info").removeClass("hidden");
+				$("#button-payment-next").attr("value", "Next");
+			}else{
+				$("#unionpay_step2").removeClass("hidden");
+				$("#button-payment-pre").removeClass("hidden");
+				if(sent==0){
+					$("#button-payment-next").prop("disabled", true);
+				}
+			}
         }else {
 			$("#app_scan_info").removeClass("hidden");
+			$("#button-payment-pre").addClass("hidden");
+			$("#button-payment-next").attr("value", "Next");
         }
 	});
 
@@ -237,5 +258,40 @@ function setBankInfo(cardInfo){
 		$("#card_no_step2").attr("value", $("#input-card-no").val());
 	}
 }
+function getPaymentStatus(){
+	console.log("getPaymentStatus");
+	var pageData =  new Object();
+	pageData["mer_id"] = "8023";
+	pageData["order_id"] = $("#order_id").val();
+	pageData["mer_date"] = $("#mer_date").val();
+	pageData["order_type"] = "1";
+	$.ajax("/demo/demo/checkStatus",{
+    	method:"POST",
+    	contentType :"application/json",
+    	data:JSON.stringify(pageData),
+    	dataType:"json",
+    	headers:{},
+    	success:function(data, statusCode){
+    		//console.log(data);
+    		if(data.tradeState === 'TRADE_SUCCESS'){
+    			//stopTimer  myTimer.stop();
+    			window.clearInterval(myTimer);
+    			//redirect to success url.
+    			window.location = getRootPath() + "/html/payment_success.html?order_id=" + $("#order_id").val();
+    			//window.location = "www.google.com";
+    		}
+    	},
+    	error:function(err){
+    		console.log(err);
+    		myTimer.stop();
+    	}
+    });
+}
 
 
+function getRootPath()  
+{  
+   var pathName = window.location.pathname.substring(1);  
+   var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));  
+   return window.location.protocol + '//' + window.location.host + '/'+ webName;  
+}  

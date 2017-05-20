@@ -628,12 +628,15 @@
                     <input type="button" value="Next" id="button-payment-next" data-loading-text="Loading..." class="btn btn-primary">
                   </div>
                 </div>
+                                
+                <input type="hidden" name="trade_no" id="trade_no" value=""></input>
+				<input type="hidden" name="input-card-type" id="input-card-type" value=""></input>
+                <input type="hidden" name="gate_id" id="gate_id" value=""></input>
+				<input type="hidden" name="input-card-type" id="input-card-type" value=""></input>
+                <input type="hidden" name="amount" id="amount" value="0.01"></input>
                 
-                <input type="text" id="trade_no" class="form-control hidden">
-                <input type="text" id="input-card-type" class="form-control hidden">
-                <input type="text" id="gate_id" class="form-control hidden">
-                <input type="text" id="input-card-type" class="form-control hidden">
-                <input type="text" value="8186" id="amount" class="form-control hidden">
+                <input type="hidden" name="order_id" id="order_id" value=""></input>
+				<input type="hidden" name="mer_date" id="mer_date" value=""></input>
               </div>
             </div>
           </div>
@@ -642,7 +645,7 @@
           <!-- Confirm Order -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a id="step4" href="#collapse-confirm" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 4: Confirmatino <i class="fa fa-angle-down"></i></a></h4>
+              <h4 class="panel-title"><a id="step4" href="#collapse-confirm" class="accordion-toggle" data-toggle="collapse" data-parent="#accordion">Step 4: Confirmation <i class="fa fa-angle-down"></i></a></h4>
             </div>
             <div id="collapse-confirm" class="panel-collapse collapse">
 
@@ -654,8 +657,7 @@
                 </div>
               </div>
 
-
-              <div id="confirmation_card" class="panel-body hidden">
+              <div id="paybycard_conformation" class="panel-body hidden">
                 <!-- Container -->
                 <div class="container-fluid">
                   <div class="row">
@@ -663,29 +665,71 @@
                     <!-- Content -->
                     <div id="content" class="col-sm-9 space-30 bg-filled">
 
-                      <h2>Thank you for your order.</h2>
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <td class="text-left" colspan="2">Order Details</td>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="text-left" style="width: 50%;">
-                              <b>Order ID:</b> 29387492378492374927<br />
-                              <b>Date Added:</b> 01/03/2017
-                            </td>
-                            <td class="text-left" style="width: 50%;">
-                              <b>Payment Method:</b> Visa Card ending in 3132<br />
-                              <b>Shipping Method:</b> Flat Shipping Rate
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+
+                      <div class="table-responsive" id="CNYprice">
+                        <table class="table" style="width: 25%;" id="price_table">
+                          <tfoot>
+                            <tr>
+                              <td colspan="4" class="text-left"><strong>Total(USD):</strong></td>
+                              <td class="text-left">$1,186.00</td>
+                            </tr>
+                            <tr>
+                              <td colspan="4" class="text-left"><strong>Current Exchange Rates:</strong></td>
+                              <td class="text-left">6.9027</td>
+                            </tr>
+                            <tr>
+                              <td colspan="4" class="text-left"><strong>Total(CNY):</strong></td>
+                              <td class="text-left">¥8,186.60</td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
+                      <br/>
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <td class="text-left">Product Name</td>
+                              <td class="text-left">Model</td>
+                              <td class="text-right">Quantity</td>
+                              <td class="text-right">Unit Price</td>
+                              <td class="text-right">Total</td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td class="text-left">
+                                <a href="#">Waxed canvas laptop bag Navy</a>
+                              </td>
+                              <td class="text-left">LB002</td>
+                              <td class="text-right">1</td>
+                              <td class="text-right">$980.00</td>
+                              <td class="text-right">$980.00</td>
+                            </tr>
+                          </tbody>
+                          <tfoot>
+                            <tr>
+                              <td colspan="4" class="text-right"><strong>Sub-Total:</strong></td>
+                              <td class="text-right">$980.00</td>
+                            </tr>
+                            <tr>
+                              <td colspan="4" class="text-right"><strong>Shipping:</strong></td>
+                              <td class="text-right">$15.00</td>
+                            </tr>
+                            <tr>
+                              <td colspan="4" class="text-right"><strong>Tax:</strong></td>
+                              <td class="text-right">$80.00</td>
+                            </tr>
+                            <tr>
+                              <td colspan="4" class="text-right"><strong>Total:</strong></td>
+                              <td class="text-right" value="1186">$1,186.00</td>
+                            </tr>
+                          </tfoot>
+                        </table>
+                      </div>
                       <hr>
                       <div class="buttons clearfix">
-                        <div class="pull-right"><a href="#" class="btn btn-primary">Continue Shopping</a></div>
+                        <div class="pull-right"><a href="#" class="btn btn-primary" id = "confirm_card_payment">Place Order</a></div>
                       </div>
 
                     </div>
