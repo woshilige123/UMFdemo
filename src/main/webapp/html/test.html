@@ -1,28 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" class=" js cssanimations">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="assets/js/test.js">	</script>
 </head>
 <body>
 	<p id="query_str"></p>
-	<form action="" id="" enctype="application/json">
+	<form action="" id="sumbit_data" enctype='application/json'>
 		parameter1:
 		<br>
-		<input type="text" name="firstname" id="param1">
+		<input type="text" name="firstname" id="param1" value="asdf">
 		<br> parameter2:
 		<br>
-		<input type="text" name="lastname" id="param2">
-		<br>
-		parameter3:
-		<br>
-		<input type="text" name="firstname" id="param3">
-		<br> parameter4:
-		<br>
-		<input type="text" name="lastname" id="param4">
-		<br>
+		<input type="text" name="lastname" id="param2" value="rete">
+		
 	</form>
 	<button type="button" id="btn1">Click Me!</button>
 	
@@ -34,7 +25,9 @@
 
 			//button bind
 			$("#btn1").bind("click",function(){
-				$("#sumbit_data").attr("action","/demo/test1")
+				$("#sumbit_data").attr("action","/demo/demo/test1")
+				 $("#sumbit_data").attr("method", "POST");
+				 
 				$("#sumbit_data").submit();
 			})
 

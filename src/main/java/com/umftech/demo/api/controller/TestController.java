@@ -25,12 +25,12 @@ public class TestController {
 
 		System.out.println(reqBody);
 		
-		Gson gson = new Gson();
-		TestObj testObj = gson.fromJson(reqBody, TestObj.class);
-		testObj.setTestParam("from server.");
+		//Gson gson = new Gson();
+		//TestObj testObj = gson.fromJson(reqBody, TestObj.class);
+		//testObj.setTestParam("from server.");
 
-		return testObj.toJson();
-		
+		//return testObj.toJson();
+		return reqBody;
 	}
 	
 	@RequestMapping(value = "/test2", method = {RequestMethod.GET})
