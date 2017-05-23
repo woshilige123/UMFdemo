@@ -55,6 +55,8 @@ $(document).ready(function(){
 				});
 	});
 	$("#button-payment-next").click(function(){
+		$('#payinfo_wx').addClass("hidden");
+        
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
@@ -80,11 +82,12 @@ $(document).ready(function(){
 				}
 				step++;
 			}else{
+				$('#payinfo_wx').addClass("hidden");
 				$("#paybycard_conformation").removeClass("hidden");
 				$("#step4").click();
 			}
 		}else{
-			
+			$("#paybycard_conformation").addClass("hidden");
 			var pageData =  new Object();
 			pageData["pay_type"] = $('#pay_type_radio input:radio:checked').val()
 			pageData["amount"] = 	$("#amount").val();
@@ -102,6 +105,7 @@ $(document).ready(function(){
 				headers:{},
 				success:function(data, statusCode){
 					if(data.success){
+						$('#qrcode').empty();
 						$('#qrcode').qrcode(data.payUrl);
 						$("#order_id").attr("value", data.orderId);
 		    			$("#mer_date").attr("value", data.merDate);
@@ -286,7 +290,8 @@ function getPaymentStatus(){
     	},
     	error:function(err){
     		console.log(err);
-    		myTimer.stop();
+    		//myTimer.stop();
+    		window.clearInterval(myTimer);
     	}
     });
 }
