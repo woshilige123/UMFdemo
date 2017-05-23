@@ -878,6 +878,10 @@
         $('.easyzoom').bind('contextmenu', function() {
           return false;
         });
+        
+        $("#button-cart").on("click", function(){
+        	window.location.href='cart.html'
+        })
 
         // Short description function
         function truncateDescription() {

@@ -263,7 +263,7 @@
       <div class="row">
         <div class="col-sm-12">
           <div id="slideshow" class="owl-carousel" style="opacity: 1;">
-            <div class="item"><a href="category.html"><img src="assets/image/banners/homepage_large_1.jpg" alt="" class="img-responsive"></a></div>
+            <div class="item"><a href="product.html"><img src="assets/image/banners/homepage_large_1.jpg" alt="" class="img-responsive"></a></div>
             <div class="item"><a href="product.html"><img src="assets/image/banners/homepage_large_2.jpg" alt="" class="img-responsive"></a></div>
           </div>
         </div>
@@ -718,6 +718,8 @@
         navigationText: ['<i class="material-icons">chevron_left</i>', '<i class="material-icons">chevron_right</i>'],
         pagination: false
       });
+      
+      $(".btn-group button[data-original-title='Add to Cart'").on("click", function(){window.location.href="cart.html"})
 
     });
 
