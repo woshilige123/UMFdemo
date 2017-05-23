@@ -6,12 +6,14 @@ var countdown = 60;
 var myTimer;
 var sent=0;
 $(document).ready(function(){
+	$("#step1").click();
 	$("#CNYprice").addClass("hidden");
 	$("#comfirmPay").addClass("hidden");
 	
 	$("#button-delivery-method").bind("click", function () {
         $("#step2").click();
         gotoTopOfElement("step1");
+        $("#radio_paytype_usd").attr("checked","checked");
     });
 	$("#button-currency-method").bind("click", function () {
         $("#step3").click();
@@ -22,12 +24,19 @@ $(document).ready(function(){
         gotoTopOfElement("step3");
     });
     $("#wechat-inApp-web-based").attr("disabled", "true");
-
+    
+    $('#input-card-no').on('keyup mouseout input',function(){
+        var $this = $(this),
+        v = $this.val();
+        /\S{5}/.test(v) && $this.val(v.replace(/\s/g,'').replace(/(.{4})/g, "$1 "));
+        
+    });
+    
 	$("#confirm_card_payment").click(function(){
 		var pageData =  new Object();
 				pageData["trade_no"] = $("#trade_no").val();
 				pageData["verify_code"] = $("#input-verify-code").val();
-				pageData["card_id"] = $("#card_no_step2").val();
+				pageData["card_id"] = removeAllSpace($("#card_no_step2").val());
 				pageData["card_holder"] = $("#card_holder").val();
 				pageData["valid_date"] = $("#input-expiration-date").val();
 				pageData["cvv2"] = $("#input-card-cvv2").val();
@@ -60,26 +69,27 @@ $(document).ready(function(){
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
+				var targetVal = removeAllSpace($("#input-card-no").val())
+				var cardInfo = getCardInfo(targetVal);
+				if(cardInfo.error_msg){
+					return;
+				}
 				$("#unionpay_card_info").addClass("hidden");
 				$("#unionpay_step2").removeClass("hidden");
 				$("#button-payment-next").prop("disabled", true);
 				$("#button-payment-pre").removeClass("hidden");
-				var targetVal = $("#input-card-no").val();
-				if(targetVal.length>=15){
-					var cardInfo = getCardInfo(targetVal);
-					$("#gate_id").attr("value", cardInfo.bankCode);
-					if(cardInfo.cardType == "CC"){
-						$("#cvv2").removeClass("hidden");
-						$("#expiration_data").removeClass("hidden");
-						$("#input-card-type").attr("value", "CREDITCARD");
-					}else{
-						$("#cvv2").addClass("hidden");
-						$("#expiration_data").addClass("hidden");
-						$("#input-card-type").attr("value", "DEBITCARD");
-					}
-					console.log(cardInfo);	
-					setBankInfo(cardInfo);
+				$("#gate_id").attr("value", cardInfo.bankCode);
+				if(cardInfo.cardType == "CC"){
+					$("#cvv2").removeClass("hidden");
+					$("#expiration_data").removeClass("hidden");
+					$("#input-card-type").attr("value", "CREDITCARD");
+				}else{
+					$("#cvv2").addClass("hidden");
+					$("#expiration_data").addClass("hidden");
+					$("#input-card-type").attr("value", "DEBITCARD");
 				}
+				console.log(cardInfo);	
+				setBankInfo(cardInfo);
 				step++;
 			}else{
 				$('#payinfo_wx').addClass("hidden");
@@ -94,7 +104,7 @@ $(document).ready(function(){
 			pageData["amount"] = 	$("#amount").val();
 			pageData["mer_id"] = "8023";
 			pageData["card_holder"] = $("#name_app").val();
-			pageData["identity_type"] = $("#input-app-id-type").val();
+			pageData["identity_type"] = "IDENTITY_CARD";
 			pageData["identity_code"] = $("#input-id-no").val();
 			pageData["notify_url"] = "www.google.com";
 
@@ -134,7 +144,7 @@ $(document).ready(function(){
 		pageData["gate_id"] = $("#gate_id").val();
 		pageData["notify_url"] = "www.google.com";
 		pageData["mer_cust_id"] = $("#mer_cust_id").val();
-		pageData["card_id"] = $("#card_no_step2").val();
+		pageData["card_id"] = removeAllSpace($("#card_no_step2").val());
 		pageData["card_holder"] = $("#card_holder").val();
 		pageData["valid_date"] = $("#input-expiration-date").val();
 		pageData["cvv2"] = $("#input-card-cvv2").val();
@@ -263,7 +273,7 @@ function setBankInfo(cardInfo){
 		$("#bank_code").text(cardInfo.bankCode);
 		$("#bank_card_type").text(cardInfo.cardType);
 		$("#card_type_name").text(cardInfo.cardTypeName);
-		$("#card_type_step2").text(cardInfo.bankName+cardInfo.cardType);
+		$("#card_type_step2").text(cardInfo.bankName+cardInfo.cardTypeName);
 		$("#card_no_step2").attr("value", $("#input-card-no").val());
 	}
 }
@@ -303,10 +313,13 @@ function gotoTopOfElement(objId){
     jQuery("html,body").animate({scrollTop:_targetTop},300);  
 }
 
-
 function getRootPath()  
 {  
    var pathName = window.location.pathname.substring(1);  
    var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));  
    return window.location.protocol + '//' + window.location.host + '/'+ webName;  
 }  
+
+function removeAllSpace(str) {
+	return str.replace(/\s+/g, "");
+	}

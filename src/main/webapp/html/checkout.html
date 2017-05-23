@@ -422,7 +422,7 @@
               <div class="panel-body">
                   <div>
                       <label class="radio-inline">
-                            <input type="radio" name="price" value="USD">
+                            <input type="radio" name="price" id="radio_paytype_usd" value="USD">
                             Price in USD
                       </label>
                       <label class="radio-inline">
@@ -544,24 +544,19 @@
                    <br/>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">Card Number</label>
-                    <input type="text" name="input-card-no" value="6217580100004222451" placeholder="Card Number" id="input-card-no" class="form-control">
+                    <input type="text" name="input-card-no" value="6217 5801 0000 4222 451" placeholder="Card Number" id="input-card-no" class="form-control">
                   </div>
                 </div>
-
+                
                 <div class="col-sm-7 hidden" id="app_scan_info">
                    <br/>
                   <div class="form-group">
                     <label class="control-label" for="input-card-no">Name</label>
                     <input type="text" name="input-card-no" value="张三" placeholder="例：张三" id="name_app" class="form-control">
                   </div>
+                  
                   <div class="form-group">
-                    <label class="control-label" for="input-app-id-type">Select Official Document ID Type</label>
-                    <select name="id_type" id="input-app-id-type" class="form-control">
-                        <option value="IDENTITY_CARD">IDENTITY_CARD</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label" for="input-card-no">ID Number</label>
+                    <label class="control-label" for="input-card-no">Chinese Resident Identity Card Number</label>
                     <input type="text" name="input-id-no" value="211321199001278274" placeholder="ID Number" id="input-id-no" class="form-control">
                   </div>
                   <div class="form-group">
@@ -594,13 +589,7 @@
                     <input type="text" name="input-citizen-name" placeholder="Name on Card" id="card_holder" class="form-control input-lg" value="张三">
                   </div>
                   <div class="form-group">
-                    <label class="control-label" for="input-payment-id">Select Official Document ID Type</label>
-                    <select name="id_type" id="input-payment-id-type" class="form-control">
-                        <option value="IDENTITY_CARD">IDENTITY_CARD</option>
-                      </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="control-label" for="input-citizen-id">ID</label>
+                    <label class="control-label" for="input-citizen-id">Chinese Resident Identity Card Number</label>
                     <input type="text" name="input-citizen-id" placeholder="ID" id="input-id" class="form-control input-lg" value="211321199001278274">
                   </div>
                   <div class="form-group" id="cvv2">
@@ -635,7 +624,6 @@
                 <input type="hidden" name="gate_id" id="gate_id" value=""></input>
 				<input type="hidden" name="input-card-type" id="input-card-type" value=""></input>
                 <input type="hidden" name="amount" id="amount" value="0.01"></input>
-                
                 <input type="hidden" name="order_id" id="order_id" value=""></input>
 				<input type="hidden" name="mer_date" id="mer_date" value=""></input>
               </div>
@@ -651,8 +639,7 @@
             <div id="collapse-confirm" class="panel-collapse collapse">
 
               <div id ="payinfo_wx" class="payinfo_wx hidden">
-                <p>
-                    Amount:<span class="price"><dfn>¥</dfn>50</span>，<label id="tipMsg">Please use WeChat to scan the QR code below to finish the payment.</label></p>
+                <label id="tipMsg">Please use WeChat to scan the QR code below to finish the payment.</label>
                 <div class="col-sm-7" id="qrcode" style="width: 100%;text-align: center;">
                    
                 </div>
