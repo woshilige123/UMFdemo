@@ -85,6 +85,7 @@ $(document).ready(function(){
 				$('#payinfo_wx').addClass("hidden");
 				$("#paybycard_conformation").removeClass("hidden");
 				$("#step4").click();
+				gotoTopOfElement("step3");
 			}
 		}else{
 			$("#paybycard_conformation").addClass("hidden");
@@ -112,6 +113,7 @@ $(document).ready(function(){
 						$("#app_scan_info").addClass("hidden");
 						$('#payinfo_wx').removeClass("hidden");
 						$("#step4").click();
+						gotoTopOfElement("step3");
 					}else{
 					}
 				},
