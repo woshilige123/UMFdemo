@@ -7,7 +7,9 @@ public class RestReturnTemp {
 	private String msg;
 	private String sign;
 	private String tradeNo;
+	private String tradeState;
 	private String orderId;
+	private String merDate;
 	private String retMsg;
 	private String url;
 	private String payUrl;
@@ -22,7 +24,13 @@ public class RestReturnTemp {
 	private String packageJson;
 	private String nonceStr;
 	private String paySign;
-	
+
+	public String getMerDate() {
+		return merDate;
+	}
+	public void setMerDate(String merDate) {
+		this.merDate = merDate;
+	}
 	public String getAppId() {
 		return appId;
 	}
@@ -144,6 +152,11 @@ public class RestReturnTemp {
 	public void setInfo(Map info) {
 		this.info = info;
 	}
-	
+	public String getTradeState() {
+		return tradeState;
+	}
+	public void setTradeState(String tradeState) {
+		this.tradeState = tradeState;
+	}
 
 }

@@ -36,7 +36,7 @@
 			    	headers:{},
 			    	success:function(data, statusCode){
 			    		if(data.success){
-							$('#resMsg').html(data.retMsg);
+							$('#resMsg').html(data.tradeState);
 			    			$("#welcome").hide();
 			    			$("#step1").hide();
 			    		    $("#successful").show();

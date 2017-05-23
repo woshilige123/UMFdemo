@@ -12,6 +12,8 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.qrcode.min.js"></script>
 	<script>
+	
+	var myTimer;
 		$(document).ready(function(){
 			$("#alerts").hide();
 			$("#submit").click(function(){
@@ -36,6 +38,9 @@
 							$('#resMsg').html(data.retMsg);
 			    			$("#welcome").hide();
 			    			$('#code').qrcode(data.payUrl);
+
+			    			$("#order_id").attr("value", data.orderId);
+			    			$("#mer_date").attr("value", data.merDate);
 			    		}else{
 			    			$("#msg").text(data.retMsg);
 			    			$("#alerts").show();
@@ -46,8 +51,39 @@
 			    	}
 			    });
 
+    			
+    			myTimer = setInterval(getPaymentStatus, 1000);
 			});
-
+			
+			function getPaymentStatus(){
+				console.log("getPaymentStatus");
+	        	var pageData =  new Object();
+	        	pageData["mer_id"] = "8023";
+	        	pageData["order_id"] = $("#order_id").val();
+	        	pageData["mer_date"] = $("#mer_date").val();
+	        	pageData["order_type"] = "1";
+				$.ajax("/demo/demo/checkStatus",{
+			    	method:"POST",
+			    	contentType :"application/json",
+			    	data:JSON.stringify(pageData),
+			    	dataType:"json",
+			    	headers:{},
+			    	success:function(data, statusCode){
+			    		//console.log(data);
+			    		if(data.tradeState === 'TRADE_SUCCESS'){
+			    			//stopTimer  myTimer.stop();
+			    			window.clearInterval(myTimer);
+			    			//redirect to success url.
+    						window.location = "${pageContext.request.contextPath }/payment_success.jsp";
+			    			//window.location = "www.google.com";
+			    		}
+			    	},
+			    	error:function(err){
+			    		console.log(err);
+			    		myTimer.stop();
+			    	}
+			    });
+			}
 		    //Show alert
 		    function alertMessage(message) {
 		        var timeOut;
@@ -148,6 +184,9 @@
 	        </tr>
 		</table>
 	</div>
+	
 	<div id="code"></div>
+	<input type="hidden" name="order_id" id="order_id" value=""></input>
+	<input type="hidden" name="mer_date" id="mer_date" value=""></input>
 </body>
 </html>
