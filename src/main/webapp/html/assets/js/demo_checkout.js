@@ -23,6 +23,7 @@ $(document).ready(function(){
         $("#step4").click();
         gotoTopOfElement("step3");
     });
+    
     $("#wechat-inApp-web-based").attr("disabled", "true");
     
     $('#input-card-no').on('keyup mouseout input',function(){
