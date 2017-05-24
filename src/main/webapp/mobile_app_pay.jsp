@@ -58,7 +58,7 @@
 			function getPaymentStatus(){
 				console.log("getPaymentStatus");
 	        	var pageData =  new Object();
-	        	pageData["mer_id"] = "8023";
+	        	pageData["mer_id"] = $("#mer_id").val();
 	        	pageData["order_id"] = $("#order_id").val();
 	        	pageData["mer_date"] = $("#mer_date").val();
 	        	pageData["order_type"] = "1";
@@ -80,7 +80,8 @@
 			    	},
 			    	error:function(err){
 			    		console.log(err);
-			    		myTimer.stop();
+			    		//myTimer.stop();
+			    		window.clearInterval(myTimer);
 			    	}
 			    });
 			}
@@ -173,7 +174,7 @@
             <div class='form-row'>
               <div class='form-group card required'>
                   <label class='control-label'>Notify URL</label>
-                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "notify_url" value = "http://47.88.87.33:8088/demo/demo/notifyResult?">
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "notify_url" value = "https://demo.umftech.com/demo/demo/notifyResult?">
               </div>
             </div>
             <div class='form-row'>
