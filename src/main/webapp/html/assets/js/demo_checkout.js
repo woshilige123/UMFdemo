@@ -73,7 +73,15 @@ $(document).ready(function(){
 				var targetVal = removeAllSpace($("#input-card-no").val())
 				var cardInfo = getCardInfo(targetVal);
 				if(cardInfo.error_msg){
+					$("#unionpay_card_info .form-group").addClass('has-error');
+					$("#unionpay_card_info .form-group span").html("Please input a valid bank card number.");
+					$("#input-card-no").focus();
+					$("#input-card-no").select();
 					return;
+				}else{
+					$("#unionpay_card_info .form-group").removeClass('has-error');
+					$("#unionpay_card_info .form-group span").html("You may use this bank card number for demo. 6217580100004222451");
+					
 				}
 				$("#unionpay_card_info").addClass("hidden");
 				$("#unionpay_step2").removeClass("hidden");
