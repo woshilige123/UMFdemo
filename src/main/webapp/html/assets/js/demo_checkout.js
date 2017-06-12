@@ -7,7 +7,8 @@ var myTimer;
 var sent=0;
 $(document).ready(function(){
 	$("#step1").click();
-	$("#CNYprice").addClass("hidden");
+	$("#CNYprice").removeClass("hidden")
+	$("#USDprice").addClass("hidden");
 	$("#comfirmPay").addClass("hidden");
 	
 	$("#button-delivery-method").bind("click", function () {
@@ -161,7 +162,7 @@ $(document).ready(function(){
 		pageData["media_id"] = $("#input-phone-number").val();
 		pageData["media_type"] = "MOBILE";
 
-		$.ajax("/demo/demo/getTradeNo",{
+		$.ajax("/restdemo/payments/makePaymentOfBankcard",{
 			method:"POST",
 			contentType :"application/json",
 			data:JSON.stringify(pageData),
@@ -172,7 +173,7 @@ $(document).ready(function(){
 					$("#trade_no").attr("value", data.tradeNo);
 					pageData["trade_no"] = data.tradeNo;
 					delete pageData["amount"];
-					$.ajax("/demo/demo/sendSms", {
+					$.ajax("/restdemo/payments/sendVerificationCode", {
 						method: "POST",
 						contentType: "application/json",
 						data: JSON.stringify(pageData),
@@ -241,10 +242,11 @@ $(document).ready(function(){
     $("input[type=radio][name=price]").change(function(e) {
 		var targetVal = $(e.target).val();
 		$("#CNYprice").addClass("hidden");
+		$("#USDprice").addClass("hidden");
         if (targetVal == "CNY") {
 			$("#CNYprice").removeClass("hidden");
         }else {
-			$("#CNYprice").addClass("hidden");
+			$("#USDprice").removeClass("hidden");
         }
     });
 });
