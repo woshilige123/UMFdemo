@@ -2,6 +2,7 @@ package com.umftech.demo.api.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,5 +30,15 @@ public class TestJSPController {
 
 		return "testReferer";
 	}
+	
+	@RequestMapping(value = "/paymentResult", method = RequestMethod.POST)
+	public String getPaymentResult(Model model, HttpServletRequest req){
+		
+		for(String key : req.getParameterMap().keySet()){
+			model.addAttribute(key, req.getParameter(key));
+		}
 
+		return "payment_success";
+	}
+	
 }

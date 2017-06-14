@@ -67,7 +67,7 @@ $(document).ready(function(){
 	});
 	$("#button-payment-next").click(function(){
 		$('#payinfo_wx').addClass("hidden");
-        
+
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
@@ -107,6 +107,33 @@ $(document).ready(function(){
 				$("#step4").click();
 				gotoTopOfElement("step3");
 			}
+		}else if(pay_type == "UMFPAY"){
+			$("#paybycard_conformation").addClass("hidden");
+			var pageData =  new Object();
+			pageData["amount"] = $("#amount").val();
+			pageData["currency"] = $('#currency_radio input:radio:checked').val();
+			pageData["interface_type"] = "01";
+			pageData["mer_id"] = "8023";
+			pageData["ret_url"] = "https://demo.umftech.com/demo/html/payment_success.html";
+
+			$.ajax("/demo/demo/umfpay",{
+				method:"POST",
+				contentType :"application/json",
+				data:JSON.stringify(pageData),
+				dataType:"json",
+				headers:{},
+				success:function(data, statusCode){
+					if(data.success){
+						window.location.href= data.url;
+					}else{
+					}
+				},
+				error:function(err){
+					console.log(err);
+				}
+			});
+			myTimer = setInterval(getPaymentStatus, 1000);
+			
 		}else{
 			$("#paybycard_conformation").addClass("hidden");
 			var pageData =  new Object();
@@ -232,7 +259,11 @@ $(document).ready(function(){
 					$("#button-payment-next").prop("disabled", true);
 				}
 			}
-        }else {
+        }else if(targetVal == "UMFPAY"){
+        	$("#app_scan_info").addClass("hidden");
+			$("#button-payment-pre").addClass("hidden");
+        }
+        else {
 			$("#app_scan_info").removeClass("hidden");
 			$("#button-payment-pre").addClass("hidden");
 			$("#button-payment-next").attr("value", "Next");

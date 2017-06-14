@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -400,7 +402,62 @@ public class PaymentDemoController {
 		}
 		return jsonInString;
 	}
+	/**
+	 * Call the WeChat Official Pay service to complete payment.
+	 * 
+	 * @return String
+	 */
+	@RequestMapping(value = "/umfpay", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String getUmfpayURL(HttpServletRequest req, @RequestBody String reqBody, HttpServletResponse res){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		try {
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		// orderId
+		String orderId=""+(Math.round(Math.random()*800000000)+100000)+"";
+	    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+	    String date = format.format(new Date());
+	    orderId = date + orderId;
+	    
+	    // parameters
+		reqMap.put("service", "cross_border_pay");
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("sign_type", "RSA");
+		reqMap.put("version", "4.0");
+		reqMap.put("order_id", orderId);
+		reqMap.put("mer_date", date);
+		String goodsData = editGoodsData(orderId, (String) reqMap.get("amount"));
+		reqMap.put("goods_data", goodsData);
+		reqMap.put("goods_inf", "demo");
+		reqMap.put("risk_expand", "A0001:123659973");
+		
+		
+		String url = "";
+		try {
+			// use developer kit to get URL
+			ReqData reqData = Mer2Plat_v40.makeReqDataByGet(reqMap);
+			url = reqData.getUrl();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		RestReturnTemp rs = new RestReturnTemp();
+		rs.setSuccess(true);
+		rs.setUrl(url);
 
+		String jsonInString = "{}";
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+	
 	private String editGoodsData(String orderId, String amount){
 		StringBuffer goodsData = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		goodsData.append("<goods_data><sub_order>");
