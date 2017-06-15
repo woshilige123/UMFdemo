@@ -9,12 +9,12 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>UMF Pyament Demo - Order Info Page</title>
 
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../html/assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../html/assets/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="../html/assets/css/main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -41,7 +41,7 @@
               <span class="icon-bar"></span>
             </button>
             <!-- Logo -->
-            <a href="#" class="navbar-brand"><img src="assets/image/logo.png" title="logo" alt="logo" class="img-responsive"></a>
+            <a href="#" class="navbar-brand"><img src="../html/assets/image/logo.png" title="logo" alt="logo" class="img-responsive"></a>
             <!--/ Logo -->
           </div>
         </div>
@@ -246,11 +246,11 @@
     <!--/ Footer -->
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="assets/js/jquery.min.js"></script>
+    <script src="../html/assets/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/common.js"></script>
-    <script src="assets/js/demo_success.js"></script>
+    <script src="../html/assets/js/bootstrap.min.js"></script>
+    <script src="../html/assets/js/common.js"></script>
+    <script src="../html/assets/js/demo_success.js"></script>
     <script>
     
     $("#continue").bind("click", function () {

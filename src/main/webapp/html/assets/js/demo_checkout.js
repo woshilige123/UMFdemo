@@ -114,7 +114,7 @@ $(document).ready(function(){
 			pageData["currency"] = $('#currency_radio input:radio:checked').val();
 			pageData["interface_type"] = "01";
 			pageData["mer_id"] = "8023";
-			pageData["ret_url"] = "https://demo.umftech.com/demo/html/payment_success.html";
+			pageData["ret_url"] = "https://demo.umftech.com/demo/demo/paymentResult";
 
 			$.ajax("/demo/demo/umfpay",{
 				method:"POST",
