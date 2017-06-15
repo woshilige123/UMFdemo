@@ -16,64 +16,66 @@
 	<script>
 		$(document).ready(function(){
 				$("#alerts").hide();
-	           	var pageData =  new Object();
-	           	var payInfo = new Object();
-			    pageData["order_id"] = $("#order_id").val();
-			    pageData["open_id"] = $("#open_id").val();
-			    $.ajax("/demo/createWeChatPayment",{
-			    	method:"POST",
-			    	contentType :"application/json",
-			    	data:JSON.stringify(pageData),
-			    	dataType:"json",
-			    	headers:{},
-			    	success:function(data, statusCode){
-			    		 
-			    		if(data.success){
-			    			function onBridgeReady(){
-			    				
-			    				if(data.appId == "" || data.appId == null){
-			    					alert("appId不能为空");
-			    					return;
-			    				}
-			    				   WeixinJSBridge.invoke(
-			    						   'getBrandWCPayRequest', {
-			    								"appId":data.appId,
-			    								"nonceStr":data.nonceStr,
-			    								"package":data.packageJson,
-			    								"signType":"MD5",
-			    								"timeStamp":data.timeStamp,
-			    								"paySign":data.paySign
-			    						},
-			    				       
-			    				       function(res){     
-			    				           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-			    				        	   //window.location.href= data.url;
-			    				           }
-			    				       }
-			    				   ); 
-			    				}
-			    				if (typeof WeixinJSBridge == "undefined"){
-			    				   if( document.addEventListener ){
-			    				       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
-			    				   }else if (document.attachEvent){
-			    				       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
-			    				       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
-			    				   }
-			    				}else{
-			    				   onBridgeReady();
-			    				}
-			    				
-			    		}else{
-			    			$("#msg").text(data.retMsg);
-			    			$("#alerts").show();
-			    		}
-			    	},
-			    	error:function(err){
-			    		console.log(err);
-			    		alert(data.retMsg);
-			    	}
-			    });
-				
+				$("#confirmPayment").click(function(){
+					var pageData =  new Object();
+		           	var payInfo = new Object();
+				    pageData["order_id"] = $("#order_id").val();
+				    pageData["open_id"] = $("#open_id").val();
+				    $.ajax("/demo/createWeChatPayment",{
+				    	method:"POST",
+				    	contentType :"application/json",
+				    	data:JSON.stringify(pageData),
+				    	dataType:"json",
+				    	headers:{},
+				    	success:function(data, statusCode){
+				    		 
+				    		if(data.success){
+				    			function onBridgeReady(){
+				    				
+				    				if(data.appId == "" || data.appId == null){
+				    					alert("appId can not be empty.");
+				    					return;
+				    				}
+				    				   WeixinJSBridge.invoke(
+				    						   'getBrandWCPayRequest', {
+				    								"appId":data.appId,
+				    								"nonceStr":data.nonceStr,
+				    								"package":data.packageJson,
+				    								"signType":"MD5",
+				    								"timeStamp":data.timeStamp,
+				    								"paySign":data.paySign
+				    						},
+				    				       
+				    				       function(res){     
+				    				           if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+				    				        	   //window.location.href= data.url;
+				    				           }
+				    				       }
+				    				   ); 
+				    				}
+				    				if (typeof WeixinJSBridge == "undefined"){
+				    				   if( document.addEventListener ){
+				    				       document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+				    				   }else if (document.attachEvent){
+				    				       document.attachEvent('WeixinJSBridgeReady', onBridgeReady); 
+				    				       document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+				    				   }
+				    				}else{
+				    				   onBridgeReady();
+				    				}
+				    				
+				    		}else{
+				    			$("#msg").text(data.retMsg);
+				    			$("#alerts").show();
+				    		}
+				    	},
+				    	error:function(err){
+				    		console.log(err);
+				    		alert(data.retMsg);
+				    	}
+				    });
+
+				});
 				
 				//Show alert
 			    function alertMessage(message) {
@@ -105,7 +107,7 @@
      <hr class="featurette-divider"></hr>
      <div class="page-alerts" id = "alerts">
 		<div class="alert alert-danger page-alert" id="alert999">
-	        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+	        <button type="button" class="close"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
 	        <p id = "msg"></p>
 	    </div>
     </div>
@@ -122,6 +124,10 @@
 		     <input class="form-control" type="text" id="order_id" value="<%=request.getParameter("orderId")%>">
 		     </div>
 		</div>
+		
+			<div>
+				<input class="btn btn-primary" type="button" value="Confirm Payment" id = "confirmPayment">
+	  		</div>
 	</div>
 </body>
 </html>

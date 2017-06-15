@@ -24,7 +24,7 @@
 	        	var pageData =  new Object();
 	        	$("#alerts").hide();
 			    pageData["mer_id"] = $("#mer_id").val();
-			    //pageData["amount"] = $("#amount").val();
+			    pageData["amount"] = $("#amount").val();
 			    //pageData["goods_inf"] = $("#goods_inf").val();
 			    //pageData["ret_url"] = $("#ret_url").val();
 			    pageData["notify_url"] = $("#notify_url").val();
@@ -103,7 +103,7 @@
 			<div class="form-group row">
 			  <label for="example-text-input" class="col-2 col-form-label">Amount</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="1" id="amount">
+			    <input class="form-control" type="text" value="0.01" id="amount">
 			  </div>
 			</div>
 			
@@ -123,7 +123,7 @@
 			<div class="form-group row">
 			  <label for="example-url-input" class="col-2 col-form-label">Notify URL</label>
 			  <div class="col-10">
-			    <input class="form-control" type="url" value="http://umpay.huiplus.com.cn:8088/demo/officialAccount.jsp" id="notify_url">
+			    <input class="form-control" type="url" value="http://umpay.huiplus.com.cn/demo/officialAccount.jsp" id="notify_url">
 			  </div>
 			</div>
 			

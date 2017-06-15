@@ -97,14 +97,14 @@ public class WeChatPayOfficialAccountController {
 		// orderId
 	    SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 	    String merDate = format.format(new Date());
-	    String amount = "1";
+	    String amount = "0.01";
 		String goodsData = editGoodsData(reqMap.get("order_id"), amount);
 		
 	    // parameters
 		reqMap.put("service", "cb_active_scancode_pay");
 		reqMap.put("charset", "UTF-8");
 		reqMap.put("mer_id", "8023");
-		reqMap.put("ret_url", "http://47.88.87.33:8088/demo/payment_success.jsp");
+		reqMap.put("ret_url", "http://umpay.huiplus.com.cn/demo/payment_success.jsp");
 		reqMap.put("sign_type", "RSA");
 		reqMap.put("res_format", "HTML");
 		reqMap.put("version", "4.0");
