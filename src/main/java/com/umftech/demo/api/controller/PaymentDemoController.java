@@ -402,11 +402,7 @@ public class PaymentDemoController {
 		}
 		return jsonInString;
 	}
-	/**
-	 * Call the WeChat Official Pay service to complete payment.
-	 * 
-	 * @return String
-	 */
+	
 	@RequestMapping(value = "/umfpay", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String getUmfpayURL(HttpServletRequest req, @RequestBody String reqBody, HttpServletResponse res){
@@ -424,7 +420,6 @@ public class PaymentDemoController {
 	    orderId = date + orderId;
 	    
 	    // parameters
-		reqMap.put("service", "cross_border_pay");
 		reqMap.put("charset", "UTF-8");
 		reqMap.put("sign_type", "RSA");
 		reqMap.put("version", "4.0");

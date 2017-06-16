@@ -6,6 +6,12 @@ var countdown = 60;
 var myTimer;
 var sent=0;
 $(document).ready(function(){
+	if(isWeixinBrowser()){
+		$("#wechat-scan-code").addClass("hidden");
+		$("#ali-pay").addClass("hidden");
+	}else{
+		$("#wechat-in-app").addClass("hidden");
+	}
 	$("#step1").click();
 	$("#CNYprice").removeClass("hidden")
 	$("#USDprice").addClass("hidden");
@@ -44,7 +50,7 @@ $(document).ready(function(){
 				pageData["cvv2"] = $("#input-card-cvv2").val();
 				pageData["identity_code"] = $("#input-id").val();
 				pageData["media_id"] = $("#input-phone-number").val();
-        		pageData["mer_id"] = "8023";
+        		pageData["mer_id"] = $("#mer_id").val();
 				
 				$.ajax("/demo/demo/confirmPayment",{
 					method:"POST",
@@ -110,10 +116,16 @@ $(document).ready(function(){
 		}else if(pay_type == "UMFPAY"){
 			$("#paybycard_conformation").addClass("hidden");
 			var pageData =  new Object();
+			if(isMobile()){
+				pageData["service"] = "cross_border_h5_pay";
+				pageData["interface_type"] = "04";
+			}else{
+				pageData["service"] = "cross_border_pay";
+				pageData["interface_type"] = "01";
+			}
 			pageData["amount"] = $("#amount").val();
 			pageData["currency"] = $('#currency_radio input:radio:checked').val();
-			pageData["interface_type"] = "01";
-			pageData["mer_id"] = "8023";
+			pageData["mer_id"] = $("#mer_id").val();
 			pageData["ret_url"] = "https://demo.umftech.com/demo/demo/paymentResult";
 
 			$.ajax("/demo/demo/umfpay",{
@@ -134,16 +146,42 @@ $(document).ready(function(){
 			});
 			myTimer = setInterval(getPaymentStatus, 1000);
 			
+		}else if(pay_type == "WECHATINAPP"){
+        	var pageData =  new Object();
+        	pageData["mer_id"] = $("#mer_id").val();
+		    pageData["amount"] = $("#amount").val();
+		    //pageData["goods_inf"] = $("#goods_inf").val();
+		    pageData["ret_url"] = $("#ret_url").val();
+		    pageData["notify_url"] = $("#notify_url").val();
+		    
+		    $.ajax("/demo/getOpenID",{
+		    	method:"POST",
+		    	contentType :"application/json",
+		    	data:JSON.stringify(pageData),
+		    	dataType:"json",
+		    	headers:{},
+		    	success:function(data, statusCode){
+		    		if(data.success){
+		    			window.location.href= data.url;
+		    		}else{
+		    		}
+		    	},
+		    	error:function(err){
+		    		console.log(err);
+	    			$("#msg").text(data.retMsg);r
+	    			$("#alerts").show();
+		    	}
+		    });	
 		}else{
 			$("#paybycard_conformation").addClass("hidden");
 			var pageData =  new Object();
 			pageData["pay_type"] = $('#pay_type_radio input:radio:checked').val()
 			pageData["amount"] = 	$("#amount").val();
-			pageData["mer_id"] = "8023";
+			pageData["mer_id"] = $("#mer_id").val();
 			pageData["card_holder"] = $("#name_app").val();
 			pageData["identity_type"] = "IDENTITY_CARD";
 			pageData["identity_code"] = $("#input-id-no").val();
-			pageData["notify_url"] = "www.google.com";
+			pageData["notify_url"] = "demo.umftech.com/demo/demo/notifyResult";
 
 			$.ajax("/demo/demo/scancodePay",{
 				method:"POST",
@@ -168,7 +206,6 @@ $(document).ready(function(){
 					console.log(err);
 				}
 			});
-			myTimer = setInterval(getPaymentStatus, 1000);
 		}
 	});
 
@@ -176,7 +213,7 @@ $(document).ready(function(){
 		sent = 1;
 		var pageData = new Object();
 		pageData["amount"] = $("#amount").val();
-        pageData["mer_id"] = "8023";
+        pageData["mer_id"] = $("#mer_id").val();
         pageData["pay_type"] = $("#input-card-type").val();
 		pageData["gate_id"] = $("#gate_id").val();
 		pageData["notify_url"] = "www.google.com";
@@ -189,7 +226,7 @@ $(document).ready(function(){
 		pageData["media_id"] = $("#input-phone-number").val();
 		pageData["media_type"] = "MOBILE";
 
-		$.ajax("/restdemo/payments/makePaymentOfBankcard",{
+		$.ajax("/demo/demo/getTradeNo",{
 			method:"POST",
 			contentType :"application/json",
 			data:JSON.stringify(pageData),
@@ -200,7 +237,7 @@ $(document).ready(function(){
 					$("#trade_no").attr("value", data.tradeNo);
 					pageData["trade_no"] = data.tradeNo;
 					delete pageData["amount"];
-					$.ajax("/restdemo/payments/sendVerificationCode", {
+					$.ajax("/demo/demo/sendSms", {
 						method: "POST",
 						contentType: "application/json",
 						data: JSON.stringify(pageData),
@@ -322,7 +359,7 @@ function setBankInfo(cardInfo){
 function getPaymentStatus(){
 	console.log("getPaymentStatus");
 	var pageData =  new Object();
-	pageData["mer_id"] = "8023";
+	pageData["mer_id"] = $("#mer_id").val();
 	pageData["order_id"] = $("#order_id").val();
 	pageData["mer_date"] = $("#mer_date").val();
 	pageData["order_type"] = "1";
@@ -364,4 +401,13 @@ function getRootPath()
 
 function removeAllSpace(str) {
 	return str.replace(/\s+/g, "");
-	}
+}
+
+function isWeixinBrowser(){
+	  var ua = navigator.userAgent.toLowerCase();
+	  return (/micromessenger/.test(ua)) ? true : false ;
+}
+function isMobile(){
+	var ua = navigator.userAgent.toLowerCase();
+	return (/(android|iphone|ipad|ipod|ios|micromessenger)/.test(ua)) ? true : false ;
+}

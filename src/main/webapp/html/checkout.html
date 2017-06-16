@@ -615,17 +615,23 @@
 											style="margin-top: 24px" checked="true"> <img
 											src="assets/image/payment/Unionpay.png" height="60"
 											alt="UnionPay">
-										</label> <label class="radio-inline payment_type"> <input
+										</label> <label class="radio-inline payment_type" id="wechat-scan-code"> <input
 											type="radio" name="payment_type" value="WECHAT"
 											style="margin-top: 24px"> <img
 											src="assets/image/payment/wechatpay.png" height="60"
 											alt="WeChatPay">
 
-										</label> <label class="radio-inline payment_type"> <input
+										</label> <label class="radio-inline payment_type" id="ali-pay"> <input
 											type="radio" name="payment_type" value="ALIPAY"
 											style="margin-top: 24px"> <img
 											src="assets/image/payment/alipay.png" height="60"
 											alt="Alipay">
+										</label> <label class="radio-inline payment_type" id="wechat-in-app"> <input
+											type="radio" name="payment_type" value="WECHATINAPP"
+											style="margin-top: 24px"> <img
+											src="assets/image/payment/wechatpay.png" height="60"
+											alt="WeChatPay">
+
 										</label> <label class="radio-inline payment_type"> <input
 											type="radio" name="payment_type" value="UMFPAY"
 											style="margin-top: 24px"> <img
@@ -745,7 +751,10 @@
 									name="input-card-type" id="input-card-type" value=""></input> <input
 									type="hidden" name="amount" id="amount" value="0.01"></input> <input
 									type="hidden" name="order_id" id="order_id" value=""></input> <input
-									type="hidden" name="mer_date" id="mer_date" value=""></input>
+									type="hidden" name="mer_id" id="mer_id" value="8023"></input> <input
+									type="hidden" name="mer_date" id="mer_date" value=""></input><input
+									type="hidden" name="notify_url" id="notify_url" value="http://umpay.huiplus.com.cn/demo/officialAccount.jsp"></input>
+									<input type="hidden" name="ret_url" id="ret_url" value="http://umpay.huiplus.com.cn/demo/html/payment_success.html"></input>
 							</div>
 						</div>
 					</div>
