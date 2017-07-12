@@ -6,6 +6,7 @@ var countdown = 60;
 var myTimer;
 var sent=0;
 $(document).ready(function(){
+	$("#alerts").addClass("hidden");
 	if(isWeixinBrowser()){
 		$("#wechat-scan-code").addClass("hidden");
 		$("#ali-pay").addClass("hidden");
@@ -41,6 +42,7 @@ $(document).ready(function(){
     });
     
 	$("#confirm_card_payment").click(function(){
+		$("#alerts").addClass("hidden");
 		var pageData =  new Object();
 				pageData["trade_no"] = $("#trade_no").val();
 				pageData["verify_code"] = $("#input-verify-code").val();
@@ -63,6 +65,7 @@ $(document).ready(function(){
 							$("#confirmation_card").removeClass("hidden");
 							window.location = getRootPath() + "/html/payment_success.html?order_id=" + data.orderId;
 						}else{
+							alertMessage(data.retMsg);
 						}
 					},
 					error:function(err){
@@ -73,7 +76,7 @@ $(document).ready(function(){
 	});
 	$("#button-payment-next").click(function(){
 		$('#payinfo_wx').addClass("hidden");
-
+		$("#alerts").addClass("hidden");
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
@@ -138,13 +141,13 @@ $(document).ready(function(){
 					if(data.success){
 						window.location.href= data.url;
 					}else{
+						alertMessage(data.retMsg);
 					}
 				},
 				error:function(err){
 					console.log(err);
 				}
 			});
-			myTimer = setInterval(getPaymentStatus, 1000);
 			
 		}else if(pay_type == "WECHATINAPP"){
         	var pageData =  new Object();
@@ -164,6 +167,7 @@ $(document).ready(function(){
 		    		if(data.success){
 		    			window.location.href= data.url;
 		    		}else{
+		    			alertMessage(data.retMsg);
 		    		}
 		    	},
 		    	error:function(err){
@@ -200,16 +204,19 @@ $(document).ready(function(){
 						$("#step4").click();
 						gotoTopOfElement("step3");
 					}else{
+						alertMessage(data.retMsg);
 					}
 				},
 				error:function(err){
 					console.log(err);
 				}
 			});
+			myTimer = setInterval(getPaymentStatus, 1000);
 		}
 	});
 
 	$("#get_verify_code").click(function(){
+		$("#alerts").addClass("hidden");
 		sent = 1;
 		var pageData = new Object();
 		pageData["amount"] = $("#amount").val();
@@ -250,7 +257,7 @@ $(document).ready(function(){
 								$("#button-payment-next").prop("disabled", false);
 								settime(this);
 							}else{
-								alert(data.retMsg);
+								alertMessage(data.retMsg);
 							}
 						},
 						error: function (err) {
@@ -258,8 +265,7 @@ $(document).ready(function(){
 						}
 					});
 				}else{
-					$("#msg").text(data.retMsg);
-					$("#alerts").show();
+					alertMessage(data.retMsg);
 				}
 			},
 			error:function(err){
@@ -399,6 +405,28 @@ function getRootPath()
    return window.location.protocol + '//' + window.location.host + '/'+ webName;  
 }  
 
+//Show alert
+function alertMessage(message) {
+
+  $("#msg").text(message);
+  var timeOut;
+  $("#alerts").slideDown();
+  //Is autoclosing alert
+  var delay = $(this).attr('data-delay');
+  if(delay != undefined)
+  {
+      delay = parseInt(delay);
+      clearTimeout(timeOut);
+      timeOut = window.setTimeout(function() {
+              alert.slideUp();
+          }, delay);
+  }
+}
+//Close alert
+$('.page-alert .close').click(function(e) {
+  e.preventDefault();
+  $(this).closest('.page-alerts').slideUp();
+});
 function removeAllSpace(str) {
 	return str.replace(/\s+/g, "");
 }
