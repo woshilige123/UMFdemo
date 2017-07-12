@@ -6,7 +6,6 @@ var countdown = 60;
 var myTimer;
 var sent=0;
 $(document).ready(function(){
-	$("#alerts").hide();
 	if(isWeixinBrowser()){
 		$("#wechat-scan-code").addClass("hidden");
 		$("#ali-pay").addClass("hidden");
@@ -27,11 +26,10 @@ $(document).ready(function(){
         $("#step3").click();
         gotoTopOfElement("step2");
     	});
-	 
-//    $("#button-payment-next").bind("click", function () {
-//        $("#step4").click();
-//        gotoTopOfElement("step3");
-//    });
+    $("#button-payment-method").bind("click", function () {
+        $("#step4").click();
+        gotoTopOfElement("step3");
+    });
     
     $("#wechat-inApp-web-based").attr("disabled", "true");
     
@@ -43,7 +41,6 @@ $(document).ready(function(){
     });
     
 	$("#confirm_card_payment").click(function(){
-		$("#alerts").hide();
 		var pageData =  new Object();
 				pageData["trade_no"] = $("#trade_no").val();
 				pageData["verify_code"] = $("#input-verify-code").val();
@@ -76,7 +73,7 @@ $(document).ready(function(){
 	});
 	$("#button-payment-next").click(function(){
 		$('#payinfo_wx').addClass("hidden");
-		$("#alerts").hide();
+
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
@@ -213,7 +210,6 @@ $(document).ready(function(){
 	});
 
 	$("#get_verify_code").click(function(){
-		$("#alerts").hide();
 		sent = 1;
 		var pageData = new Object();
 		pageData["amount"] = $("#amount").val();
@@ -402,28 +398,7 @@ function getRootPath()
    var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));  
    return window.location.protocol + '//' + window.location.host + '/'+ webName;  
 }  
-//Show alert
-function alertMessage(message) {
 
-    $("#msg").text(message);
-    var timeOut;
-    $("#alerts").slideDown();
-    //Is autoclosing alert
-    var delay = $(this).attr('data-delay');
-    if(delay != undefined)
-    {
-        delay = parseInt(delay);
-        clearTimeout(timeOut);
-        timeOut = window.setTimeout(function() {
-                alert.slideUp();
-            }, delay);
-    }
-}
-//Close alert
-$('.page-alert .close').click(function(e) {
-    e.preventDefault();
-    $(this).closest('.page-alerts').slideUp();
-});
 function removeAllSpace(str) {
 	return str.replace(/\s+/g, "");
 }
