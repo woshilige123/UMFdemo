@@ -34,6 +34,13 @@
 .img_radio {
 	margin-top: 24px;
 }
+
+#alerts {
+    position: fixed;
+    top: 100px;
+    width: 95%;
+    z-index: 999;
+}
 </style>
 </head>
 
@@ -269,6 +276,12 @@
 
 	<!-- Container -->
 	<div class="container-fluid space-30">
+		<div class="page-alerts" id = "alerts">
+			<div class="alert alert-danger page-alert" id="err-alert">
+		        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+		        <p id = "msg"></p>
+		    </div>
+	    </div>
 		<div class="row">
 
 			<!-- Content -->
@@ -670,6 +683,7 @@
 										<input type="text" name="input-phone-no" value="13241359611"
 											placeholder="Phone" id="input-iphone-no" class="form-control">
 									</div>
+									<input type="hidden" id="input-openid-no" value="">
 									<!--/
                   <div id="card_info">
                   	<p class="error"><strong id="err_msg"></strong></p>
@@ -698,13 +712,13 @@
 										<label class="control-label" for="input-citizen-name">Name
 											on Card</label> <input type="text" name="input-citizen-name"
 											placeholder="Name on Card" id="card_holder"
-											class="form-control input-lg" value="张三">
+											class="form-control input-lg" value="高兵">
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="input-citizen-id">Chinese
 											Resident Identity Card Number</label> <input type="text"
 											name="input-citizen-id" placeholder="ID" id="input-id"
-											class="form-control input-lg" value="211321199001278274">
+											class="form-control input-lg" value="120225198702194375">
 									</div>
 									<div class="form-group" id="cvv2">
 										<label class="control-label" for="input-card-cvv">CVV2</label>
@@ -720,7 +734,7 @@
 									<div class="form-group">
 										<label class="control-label" for="input-phone-number">Phone
 											Number (Which linked with the bank card)</label> <input type="text"
-											name="input-phone-number" value="13241359611"
+											name="input-phone-number" value="15712889715"
 											placeholder="Phone Number" id="input-phone-number"
 											class="form-control">
 									</div>
