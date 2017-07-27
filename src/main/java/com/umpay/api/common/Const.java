@@ -84,7 +84,7 @@ public class Const {
 	
 	
 	/**统一支付平台应用名*/
-	public static final String PLAT_APP_NAME_PAY = "spay";
+	public static final String PLAT_APP_NAME_PAY = "fx_spay";
 	
 	public static final String METHOD_GET = "get";
 	public static final String METHOD_POST = "post";

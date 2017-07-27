@@ -43,6 +43,7 @@ $(document).ready(function(){
     
 	$("#confirm_card_payment").click(function(){
 		$("#alerts").addClass("hidden");
+		$("body").addClass("loading");
 		var pageData =  new Object();
 				pageData["trade_no"] = $("#trade_no").val();
 				pageData["verify_code"] = $("#input-verify-code").val();
@@ -65,18 +66,23 @@ $(document).ready(function(){
 							$("#confirmation_card").removeClass("hidden");
 							window.location = getRootPath() + "/html/payment_success.html?order_id=" + data.orderId;
 						}else{
-							alertMessage(data.retMsg);
+			    			$("#msg").text(data.retMsg);
+			    			$("#alerts").removeClass("hidden");
 						}
 					},
 					error:function(err){
 						console.log(err);
-						alert(data.retMsg);
+		    			$("#msg").text(data.retMsg);
+		    			$("#alerts").removeClass("hidden");
+					},
+					complete: function(){
+						$("body").removeClass("loading");
 					}
 				});
 	});
 	$("#button-payment-next").click(function(){
 		$('#payinfo_wx').addClass("hidden");
-		$("#alerts").addClass("hidden");
+		//$("#alerts").addClass("hidden");
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){
@@ -141,11 +147,14 @@ $(document).ready(function(){
 					if(data.success){
 						window.location.href= data.url;
 					}else{
-						alertMessage(data.retMsg);
+		    			$("#msg").text(data.retMsg);
+		    			$("#alerts").removeClass("hidden");
 					}
 				},
 				error:function(err){
 					console.log(err);
+	    			$("#msg").text(data.retMsg);
+	    			$("#alerts").removeClass("hidden");
 				}
 			});
 			
@@ -167,17 +176,19 @@ $(document).ready(function(){
 		    		if(data.success){
 		    			window.location.href= data.url;
 		    		}else{
-		    			alertMessage(data.retMsg);
+		    			$("#msg").text(data.retMsg);
+		    			$("#alerts").removeClass("hidden");
 		    		}
 		    	},
 		    	error:function(err){
 		    		console.log(err);
-	    			$("#msg").text(data.retMsg);r
-	    			$("#alerts").show();
+	    			$("#msg").text(data.retMsg);
+	    			$("#alerts").removeClass("hidden");
 		    	}
 		    });	
 		}else{
 			$("#paybycard_conformation").addClass("hidden");
+			$("body").addClass("loading");
 			var pageData =  new Object();
 			pageData["pay_type"] = $('#pay_type_radio input:radio:checked').val()
 			pageData["amount"] = 	$("#amount").val();
@@ -204,11 +215,17 @@ $(document).ready(function(){
 						$("#step4").click();
 						gotoTopOfElement("step3");
 					}else{
-						alertMessage(data.retMsg);
+		    			$("#msg").text(data.retMsg);
+		    			$("#alerts").removeClass("hidden");
 					}
 				},
 				error:function(err){
 					console.log(err);
+	    			$("#msg").text(data.retMsg);
+	    			$("#alerts").removeClass("hidden");
+				},
+				complete: function(){
+					$("body").removeClass("loading");
 				}
 			});
 			myTimer = setInterval(getPaymentStatus, 1000);
@@ -217,6 +234,7 @@ $(document).ready(function(){
 
 	$("#get_verify_code").click(function(){
 		$("#alerts").addClass("hidden");
+		$("#get_verify_code").prop("disabled", true);
 		sent = 1;
 		var pageData = new Object();
 		pageData["amount"] = $("#amount").val();
@@ -257,20 +275,27 @@ $(document).ready(function(){
 								$("#button-payment-next").prop("disabled", false);
 								settime(this);
 							}else{
-								alertMessage(data.retMsg);
+				    			$("#msg").text(data.retMsg);
+				    			$("#alerts").removeClass("hidden");
 							}
 						},
 						error: function (err) {
 							console.log(err);
+			    			$("#msg").text(data.retMsg);
+			    			$("#alerts").removeClass("hidden");
 						}
 					});
 				}else{
-					alertMessage(data.retMsg);
+	    			$("#msg").text(data.retMsg);
+	    			$("#alerts").removeClass("hidden");
+					$("#get_verify_code").prop("disabled", false);
 				}
 			},
 			error:function(err){
 				console.log(err);
-				alert(data.retMsg);
+    			$("#msg").text(data.retMsg);
+    			$("#alerts").removeClass("hidden");
+				$("#get_verify_code").prop("disabled", false);
 			}
 		});
 		
@@ -326,19 +351,19 @@ $(document).ready(function(){
 });
 
 function settime(val) {
-    	        if (countdown == 0) { 
-    	        	$("#get_verify_code").prop("disabled", false);
-	    	        $("#get_verify_code").attr("value", "Send code");
-    	        	countdown = 60; 
-    	        } else {
-	    	        $("#get_verify_code").prop("disabled", true);
-	    	        $("#get_verify_code").attr("value", "resend(" + countdown + ")");
-	    	        countdown--; 
-	    	        setTimeout(function() { 
-	    	        	settime(val) 
-	    	        },1000) 
-    	        }
-    	    }
+    if (countdown == 0) { 
+    	$("#get_verify_code").prop("disabled", false);
+        $("#get_verify_code").attr("value", "Send code");
+    	countdown = 60; 
+    } else {
+        $("#get_verify_code").prop("disabled", true);
+        $("#get_verify_code").attr("value", "resend(" + countdown + ")");
+        countdown--; 
+        setTimeout(function() { 
+        	settime(val) 
+        },1000) 
+    }
+}
 
 function getCardInfo(cardNum){
 	var cardInfo = getBankBin(cardNum);
@@ -408,25 +433,26 @@ function getRootPath()
 //Show alert
 function alertMessage(message) {
 
-  $("#msg").text(message);
-  var timeOut;
-  $("#alerts").slideDown();
-  //Is autoclosing alert
-  var delay = $(this).attr('data-delay');
-  if(delay != undefined)
-  {
-      delay = parseInt(delay);
-      clearTimeout(timeOut);
-      timeOut = window.setTimeout(function() {
-              alert.slideUp();
-          }, delay);
-  }
+    $("#msg").text(message);
+    var timeOut;
+    $("#alerts").slideDown();
+    //Is autoclosing alert
+    var delay = $(this).attr('data-delay');
+    if(delay != undefined)
+    {
+        delay = parseInt(delay);
+        clearTimeout(timeOut);
+        timeOut = window.setTimeout(function() {
+                alert.slideUp();
+            }, delay);
+    }
 }
 //Close alert
 $('.page-alert .close').click(function(e) {
-  e.preventDefault();
-  $(this).closest('.page-alerts').slideUp();
+    e.preventDefault();
+    $(this).closest('.page-alerts').slideUp();
 });
+
 function removeAllSpace(str) {
 	return str.replace(/\s+/g, "");
 }

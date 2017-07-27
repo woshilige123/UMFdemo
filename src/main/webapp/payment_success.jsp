@@ -13,6 +13,31 @@
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
     crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script>
+		$(document).ready(function() {
+	
+			var query = window.location.search.substring(1);
+			$("#query_str").append(query);
+			var query_string = {};
+			var vars = query.split("&");
+			for (var i=0;i<vars.length;i++) {
+				var pair = vars[i].split("=");
+						// If first entry with this name
+				if (typeof query_string[pair[0]] === "undefined") {
+					query_string[pair[0]] = decodeURIComponent(pair[1]);
+						// If second entry with this name
+				} else if (typeof query_string[pair[0]] === "string") {
+					var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+					query_string[pair[0]] = arr;
+						// If third or later entry with this name
+				} else {
+					query_string[pair[0]].push(decodeURIComponent(pair[1]));
+				}
+			}
+			$("#order_id_text").text(query_string["order_id"]);
+		});
+
+	</script>
 </head>
 
 <body style="font-family: 'Open Sans', sans-serif;">
@@ -20,8 +45,7 @@
 	<div class="container">
 		<div id = "successful" class="container">
 	        <div class="centered title"><h1>Your payment was completed. </h1>
-	            <label class='control-label'>orderID:</label>
-                <p id = "orderId" value = "<%=request.getParameter("order_id")%>"></p>
+                <b>Order ID:</b> <span id="order_id_text"></span><br />
 	        </div>
 	     </div>
      </div>

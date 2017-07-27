@@ -18,6 +18,7 @@
 			$("#alerts").hide();
 			$("#submit").click(function(){
 	        	$("#alerts").slideUp();
+	        	$('#code').empty();
 	        	var pageData =  new Object();
 			    pageData["pay_type"] = $("#pay_type").val();
 			    pageData["amount"] = $("#amount").val();
@@ -41,6 +42,7 @@
 
 			    			$("#order_id").attr("value", data.orderId);
 			    			$("#mer_date").attr("value", data.merDate);
+			    			myTimer = setInterval(getPaymentStatus, 1000);
 			    		}else{
 			    			$("#msg").text(data.retMsg);
 			    			$("#alerts").show();
@@ -50,9 +52,6 @@
 			    		console.log(err);
 			    	}
 			    });
-
-    			
-    			myTimer = setInterval(getPaymentStatus, 1000);
 			});
 			
 			function getPaymentStatus(){
@@ -74,7 +73,7 @@
 			    			//stopTimer  myTimer.stop();
 			    			window.clearInterval(myTimer);
 			    			//redirect to success url.
-    						window.location = "${pageContext.request.contextPath }/payment_success.jsp";
+    						window.location = "${pageContext.request.contextPath }/payment_success.jsp?order_id=" + $("#order_id").val();
 			    			//window.location = "www.google.com";
 			    		}
 			    	},
@@ -174,7 +173,7 @@
             <div class='form-row'>
               <div class='form-group card required'>
                   <label class='control-label'>Notify URL</label>
-                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "notify_url" value = "https://demo.umftech.com/demo/demo/notifyResult?">
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "notify_url" value = "https://dev.demo.umftech.com/demo/demo/notifyResult?">
               </div>
             </div>
             <div class='form-row'>

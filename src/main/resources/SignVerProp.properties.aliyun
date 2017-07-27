@@ -2,9 +2,9 @@
 
 #生产环境URL(请勿修改)
 #plat.url=http://uat.soopay.net
-#plat.url=https://pay.soopay.net
+plat.url=https://pay.soopay.net
 #plat.url=http://fxsettlement.soopay.net
-plat.url=http://uatfx.soopay.net
+#plat.url=http://uatfx.soopay.net
 
 #商户私钥配置路径(必须为绝对路径),可配置多个
 #linux系统 例：商户号.mer.prikey.path=/opt/cert/NNNN_XXXXXXXXX.key.p8
@@ -20,14 +20,15 @@ plat.url=http://uatfx.soopay.net
 
 #跨境商户
 3965.mer.prikey.path=/opt/cert/3965_beimeiceshi.key.p8
+3965.mer.prikey.path=/opt/cert/3965_production.key.p8
 3621.mer.prikey.path=/opt/cert/3621_resellerclubceshi.key.p8
 8023.mer.prikey.path=/opt/cert/8023_beimeiceshiAPIshanghu.key.p8
 
 #UMPAY平台证书路径（必须为绝对路径）
 #linux系统 例：plat.cert.path=/opt/cert/cert_2d59.crt
 #windows系统 例：plat.cert.path=D:\opt\cert\cert_2d59.crt
-plat.cert.path=/opt/cert/umpay.cert.crt
-#plat.cert.path=/opt/cert/cert_2d59.crt
+#plat.cert.path=/opt/cert/umpay.cert.crt
+plat.cert.path=/opt/cert/cert_2d59.crt
 
 #商户私钥证书扩展名，默认为.p8，可不配置该项
 #prikey.expand.name=.p8

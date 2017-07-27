@@ -41,11 +41,37 @@
     width: 95%;
     z-index: 999;
 }
+ .modal {
+		display:    none;
+		position:   fixed;
+		z-index:    1000;
+		top:        0;
+		left:       0;
+		height:     100%;
+		width:      100%;
+		background: rgba( 255, 255, 255, .8 ) 
+					url('http://i.stack.imgur.com/FhHRx.gif') 
+					50% 50% 
+					no-repeat;
+	}
+	
+	/* When the body has the loading class, we turn
+		the scrollbar off with overflow:hidden */
+	body.loading {
+		overflow: hidden;   
+	}
+	
+	/* Anytime the body has the loading class, our
+		modal element will be visible */
+	body.loading .modal {
+		display: block;
+	}
 </style>
 </head>
 
-<body>
-
+<body >
+	<div class="modal">
+	</div>
 	<!-- Smooth page loading -->
 	<div class="loader"></div>
 	<!--/ Smooth page loading -->
@@ -282,6 +308,7 @@
 		        <p id = "msg"></p>
 		    </div>
 	    </div>
+	    
 		<div class="row">
 
 			<!-- Content -->
@@ -393,7 +420,7 @@
 											<legend>Your address</legend>
 											<div class="form-group">
 												<label class="control-label" for="input-billing-company">Company</label>
-												<input type="text" name="company" value="UMFtech"
+												<input type="text" name="company" value="UMFtech REST"
 													placeholder="Company" id="input-billing-company"
 													class="form-control">
 											</div>
@@ -660,7 +687,7 @@
 											Number</label> <input type="text" name="input-card-no" value=""
 											placeholder="Card Number" id="input-card-no"
 											class="form-control"> <span class="help-block">You
-											may use this bank card number for demo. 6217580100004222451</span>
+											may use this bank card number for demo. 6259655533117715</span>
 									</div>
 								</div>
 
@@ -671,7 +698,7 @@
 										<input type="text" name="input-card-no" value="张三"
 											placeholder="例：张三" id="name_app" class="form-control">
 									</div>
-
+								
 									<div class="form-group">
 										<label class="control-label" for="input-card-no">Chinese
 											Resident Identity Card Number</label> <input type="text"
@@ -680,7 +707,7 @@
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="input-card-no">Phone</label>
-										<input type="text" name="input-phone-no" value="13241359611"
+										<input type="text" name="input-phone-no" value="15012345678"
 											placeholder="Phone" id="input-iphone-no" class="form-control">
 									</div>
 									<input type="hidden" id="input-openid-no" value="">
@@ -712,7 +739,7 @@
 										<label class="control-label" for="input-citizen-name">Name
 											on Card</label> <input type="text" name="input-citizen-name"
 											placeholder="Name on Card" id="card_holder"
-											class="form-control input-lg" value="高兵">
+											class="form-control input-lg" value="罗淳雅">
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="input-citizen-id">Chinese
@@ -722,19 +749,19 @@
 									</div>
 									<div class="form-group" id="cvv2">
 										<label class="control-label" for="input-card-cvv">CVV2</label>
-										<input type="text" name="input-card-cvv" value=""
+										<input type="text" name="input-card-cvv" value="358"
 											placeholder="CVV2" id="input-card-cvv2" class="form-control">
 									</div>
 									<div class="form-group" id="expiration_data">
 										<label class="control-label" for="input-card-exp">Expiration
-											Date</label> <input type="text" name="input-card-cvv" value=""
+											Date</label> <input type="text" name="input-card-cvv" value="2011"
 											placeholder="Expiration Date" id="input-expiration-date"
 											class="form-control">
 									</div>
 									<div class="form-group">
 										<label class="control-label" for="input-phone-number">Phone
 											Number (Which linked with the bank card)</label> <input type="text"
-											name="input-phone-number" value="15712889715"
+											name="input-phone-number" value="15012345678"
 											placeholder="Phone Number" id="input-phone-number"
 											class="form-control">
 									</div>
@@ -746,6 +773,12 @@
 											type="button" value="Send code" id="get_verify_code"
 											data-loading-text="Loading..." class="btn btn-primary">
 									</div>
+									
+									<!-- <div class="form-group">
+									  <input
+											type="button" value="payment" id="confirm_payment"
+											data-loading-text="Loading..." class="btn btn-primary">
+									</div> -->
 								</div>
 
 								<div class="buttons col-sm-10" id="getCardBin">
@@ -794,7 +827,6 @@
 							</div>
 
 							<div id="paybycard_conformation" class="panel-body hidden">
-								<!-- Container -->
 								<div class="container-fluid">
 									<div class="row">
 
@@ -975,6 +1007,7 @@
 	<script src="assets/js/demo_cardbin.js"></script>
 	<script src="assets/js/jquery.qrcode.min.js"></script>
 	<script src="assets/js/demo_checkout.js"></script>
+	<script src="assets/js/store.js"></script>
 </body>
 
 </html>

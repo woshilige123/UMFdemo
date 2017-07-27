@@ -278,6 +278,7 @@ public class PaymentDemoController {
 			rs.setTradeState(resMap.get("trade_state"));
 		}
 		rs.setRetMsg("".equals(retMsg) ? resMap.get("ret_msg") : retMsg);
+		//rs.setOrderId(resMap.get("order_id"));
 		String jsonInString = "{}";
 
 		try {
@@ -373,6 +374,7 @@ public class PaymentDemoController {
 				Map<String, String> fieldMap = new HashMap<>();
 				fieldMap = reqDataPost.getField();
 				//fieldMap.put("goods_data", URLEncoder.encode(goodsData, "UTF-8").toString());//用于发送数据
+				//String resultString = HttpClientUtil.doPost("https://fx.soopay.net/fx_spay/pay/payservice.do", fieldMap);
 				String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
 				resMap = Plat2Mer_v40.getResData(resultString);
 			} catch (Exception e) {

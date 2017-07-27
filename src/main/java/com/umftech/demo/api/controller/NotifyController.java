@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.mail.Address;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -85,9 +86,68 @@ public class NotifyController{
 			retStr.append(time);
 			sendMail(retStr.toString());
 		}
+		sendMail(retStr.toString());
 		return retStr.toString();
 	}
 	
+	
+
+	/**
+	 * Receive payment result from UMF RESTful API
+	 * 
+	 * @return String
+	 */
+	@RequestMapping(value = "/notifyResultRest", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public String notifyResultRestListener(HttpServletRequest req){
+
+		Map<String, String> map = new HashMap<>();
+		StringBuilder retStr = new StringBuilder("<META NAME=\"MobilePayPlatform\" CONTENT=\"");
+		StringBuilder payResultStr = new StringBuilder();
+		Set<String> keySet = new HashSet<>();
+		String ipAdrr = req.getRemoteAddr();
+		keySet.add("mer_id");
+		keySet.add("sign_type");
+		keySet.add("version");
+		keySet.add("order_id");
+		keySet.add("mer_date");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHMMSS");
+	    String time = format.format(new Date());
+		try {
+			map = DataUtil.getData(req);
+			map.put("IP", ipAdrr);
+			for(Map.Entry<String, String> entry : map.entrySet()){
+				payResultStr.append(entry.getKey());
+				payResultStr.append("=");
+				payResultStr.append(entry.getValue());
+				payResultStr.append("\n");
+				if(keySet.contains(entry.getKey())){
+					retStr.append(entry.getKey());
+					retStr.append("=");
+					retStr.append(entry.getValue());
+					retStr.append("&");
+				}
+			}
+            String retMsg = writeNotifyRecord(payResultStr.toString());
+            if("".equals(retMsg)){
+            	retStr.append("ret_code=0000&");
+    			retStr.append("ret_msg= Test merchants result and notification response data &");
+    			retStr.append("sign=");
+    			retStr.append(map.get("sign"));
+    			retStr.append("\" />");
+            }else{
+            	retStr = new StringBuilder(retMsg);
+            }
+		} catch (Exception e) {
+			e.printStackTrace();
+			retStr.append(e.getMessage());
+			retStr.append("\n");
+			retStr.append(time);
+			sendMail(retStr.toString());
+		}
+        retStr.append(System.getProperty("user.home"));
+		return retStr.toString();
+	}
 	/**
 	 * Send mail
 	 * 
@@ -118,8 +178,13 @@ public class NotifyController{
 
 		            Message message = new MimeMessage(session);
 		            message.setFrom(new InternetAddress("kevinli@umpay.com"));
-		            message.setRecipients(Message.RecipientType.TO,
-		            InternetAddress.parse("kevinli@umpay.com"));
+		            InternetAddress[] addressArr = new InternetAddress[2];
+		            addressArr[0] = new InternetAddress("kevinli@umftech.com");
+		            addressArr[1] = new InternetAddress("zhangming@umfintech.com");
+		            //addressArr[2] = new InternetAddress("lisheng@umfintech.com");
+		            //addressArr[3] = new InternetAddress("fengjian@umfintech.com");
+		            
+		            message.setRecipients(Message.RecipientType.TO,addressArr);
 		            message.setSubject("A testing mail header !!!");
 		            message.setText(str);
 		            Transport.send(message);
