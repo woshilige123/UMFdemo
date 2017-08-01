@@ -11,6 +11,38 @@
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery.qrcode.min.js"></script>
+	    <style>
+        #main {
+            margin-top: 200px;
+        }
+        
+        .modal {
+		    display:    none;
+		    position:   fixed;
+		    z-index:    1000;
+		    top:        0;
+		    left:       0;
+		    height:     100%;
+		    width:      100%;
+		    background: rgba( 255, 255, 255, .8 ) 
+		                url('http://i.stack.imgur.com/FhHRx.gif') 
+		                50% 50% 
+		                no-repeat;
+		}
+		
+		/* When the body has the loading class, we turn
+		   the scrollbar off with overflow:hidden */
+		body.loading {
+		    overflow: hidden;   
+		}
+		
+		/* Anytime the body has the loading class, our
+		   modal element will be visible */
+		body.loading .modal {
+		    display: block;
+		}
+
+    </style>
 	<script>
 	
 	var myTimer;
@@ -19,6 +51,7 @@
 			$("#submit").click(function(){
 	        	$("#alerts").slideUp();
 	        	$('#code').empty();
+            	$("body").addClass("loading");
 	        	var pageData =  new Object();
 			    pageData["pay_type"] = $("#pay_type").val();
 			    pageData["amount"] = $("#amount").val();
@@ -39,9 +72,10 @@
 							$('#resMsg').html(data.retMsg);
 			    			$("#welcome").hide();
 			    			$('#code').qrcode(data.payUrl);
-
+			    			$('#code').goTo();
 			    			$("#order_id").attr("value", data.orderId);
 			    			$("#mer_date").attr("value", data.merDate);
+			    			//myTimer = setTimeout("setInterval(getPaymentStatus, 1000)",5000);
 			    			myTimer = setInterval(getPaymentStatus, 1000);
 			    		}else{
 			    			$("#msg").text(data.retMsg);
@@ -50,7 +84,10 @@
 			    	},
 			    	error:function(err){
 			    		console.log(err);
-			    	}
+			    	},
+                    complete: function(){
+                    	$("body").removeClass("loading");
+                    }
 			    });
 			});
 			
@@ -108,11 +145,20 @@
 		    
 		});
 		
-		
+		(function($) {
+		    $.fn.goTo = function() {
+		        $('html, body').animate({
+		            scrollTop: $(this).offset().top + 'px'
+		        }, 'fast');
+		        return this; // for chaining...
+		    }
+		})(jQuery);
 	</script>
 </head>
 
 <body>
+	<div class="modal">
+	</div>
 	<div class="container">
 		<div class="page-alerts" id = "alerts">
 			<div class="alert alert-danger page-alert" id="alert999">
@@ -185,7 +231,7 @@
 		</table>
 	</div>
 	
-	<div id="code"></div>
+	<div id="code" style="position:absolute; top:600px; left:400px; z-index:2"></div>
 	<input type="hidden" name="order_id" id="order_id" value=""></input>
 	<input type="hidden" name="mer_date" id="mer_date" value=""></input>
 </body>

@@ -190,7 +190,7 @@ $(document).ready(function(){
 			$("#paybycard_conformation").addClass("hidden");
 			$("body").addClass("loading");
 			var pageData =  new Object();
-			pageData["pay_type"] = $('#pay_type_radio input:radio:checked').val()
+			pageData["pay_type"] = $('#pay_type_radio input:radio:checked').val();
 			pageData["amount"] = 	$("#amount").val();
 			pageData["mer_id"] = $("#mer_id").val();
 			pageData["card_holder"] = $("#name_app").val();
