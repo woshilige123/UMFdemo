@@ -4,4 +4,5 @@ encoding//src/main/resources=UTF-8
 encoding//src/main/resources/SignVerProp.properties=UTF-8
 encoding//src/main/resources/SignVerProp.properties.bak=UTF-8
 encoding//src/main/webapp/success.jsp=UTF-8
+encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.umftech.demo.TestObj;
+import com.umpay.api.util.SignUtil;
+import com.umpay.api.util.StringUtil;
 
 @RestController
 @RequestMapping(value = "/demo", produces = "text/plain;charset=UTF-8")
@@ -32,7 +37,7 @@ public class TestController {
 		//return testObj.toJson();
 		return reqBody;
 	}
-	
+
 	@RequestMapping(value = "/test2", method = {RequestMethod.GET})
 	@ResponseBody
 	public String getReferer(HttpServletRequest req){
@@ -45,6 +50,22 @@ public class TestController {
 		map.put("sourceIP", req.getRemoteAddr());
 		
 		return gson.toJson(map);
+		
+	}
+	@RequestMapping(value = "/generateSign", method = {RequestMethod.POST})
+	@ResponseBody
+	public String generateSign(HttpServletRequest req, @RequestBody String reqBody){
+
+		
+		Gson gson = new Gson();
+		JsonElement jelement = new JsonParser().parse(reqBody);
+		JsonObject jOb = new JsonObject();
+		String plain = jelement.getAsJsonObject().get("plain").getAsString();
+		String merID = jelement.getAsJsonObject().get("merID").getAsString();
+		//Map<String, String> reqMap = gson.fromJson(gson.toJsonTree(reqBody), new HashMap<String, String>().getClass());
+		String sign = SignUtil.sign(plain, merID);
+		jOb.addProperty("sign", sign);
+		return jOb.toString();
 		
 	}
 

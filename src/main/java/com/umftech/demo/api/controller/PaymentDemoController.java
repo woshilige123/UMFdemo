@@ -52,6 +52,7 @@ public class PaymentDemoController {
 			map.put("order_id", orderId);
 			map.put("mer_date", date);
 			map.put("currency", "CNY");
+			map.put("sub_mer_id", "umf_submer_001");
 			map.put("goods_data", goodsData);
 			try {
 				// get sign
@@ -367,6 +368,7 @@ public class PaymentDemoController {
 			String goodsData = editGoodsData(orderId, (String) map.get("amount"));
 			map.put("goods_data",goodsData);
 			map.put("mobile_id", "15011466525");
+			map.put("sub_mer_id", "umf_sub_mer@#$0..<>01");
 
 			try {
 				// get sign
