@@ -1,0 +1,44 @@
+﻿#修改本配置文件后，您须要重启服务，使配置生效
+
+#生产环境URL(请勿修改)
+#plat.url=http://pay.soopay.net
+plat.url=https://fxus.soopay.net
+#plat.url=http://fxsettlement.soopay.net
+#plat.url=https://uatfx.soopay.net
+
+#商户私钥配置路径(必须为绝对路径),可配置多个
+#linux系统 例：商户号.mer.prikey.path=/opt/cert/NNNN_XXXXXXXXX.key.p8
+#windows系统 例：商户号.mer.prikey.path=D:\opt\cert\NNNN_XXXXXXXXX.key.p8
+
+#跨境Test商户
+4907.mer.prikey.path=/opt/cert/4907_kuajingzhifu.key.p8
+9844.mer.prikey.path=/opt/cert/9844_kuajingceshishanghu.key.p8
+6245.mer.prikey.path=/opt/cert/6245_UFuCeShiSH.key.p8
+3621.mer.prikey.path=/opt/cert/3621_resellerclubceshi.key.p8
+3965.mer.prikey.path=/opt/cert/3965_production.key.p8
+#3965.mer.prikey.path=/opt/cert/3965_beimeiceshi.key.pem
+8023.mer.prikey.path=/opt/cert/8023_beimeiceshiAPIshanghu.key.p8
+3602.mer.prikey.path=/opt/cert/3602_shoujiehuiAPIceshi.key.p8
+3975.mer.prikey.path=/opt/cert/3975_wechatofficialpay.key.p8
+5210.mer.prikey.path=/opt/cert/5210_NorthAmericaTest.key.p8
+5200.mer.prikey.path=/opt/cert/5200_.key.p8
+
+
+7180.mer.prikey.path=/opt/cert/7180.key.p8
+0531.mer.prikey.path=/opt/cert/0531_.key.p8
+50196.mer.prikey.path=/opt/cert/pkcs8_private_key.der
+6260.mer.prikey.path=/opt/cert/6260_crossboarder_test.key.p8
+
+#3975.mer.prikey.path=/opt/cert/3975_maima.key.p8
+#UMPAY平台证书路径（必须为绝对路径）
+#linux系统 例：plat.cert.path=/opt/cert/cert_2d59.crt
+#windows系统 例：plat.cert.path=D:\opt\cert\cert_2d59.crt
+plat.cert.path=/opt/cert/cert_2d59.crt
+#plat.cert.path=/opt/cert/umpay.cert.crt
+
+#以下配置请勿修改
+plat.pay.product.name=spay
+#plat.pay.product.name=fx_spay
+
+#需要进行RSA加密的参数，无需修改
+Encrypt.Paramters=card_id,valid_date,cvv2,pass_wd,identity_code,card_holder,recv_account,recv_user_name,identity_holder,identityCode,cardHolder,mer_cust_name,account_name,bank_account,endDate

@@ -33,8 +33,10 @@ public class SignUtil {
 		log_.debug("plain="+plain);
 		try{
 			Signature sig = Signature.getInstance("SHA1withRSA");
+			//Signature sig = Signature.getInstance("SHA256withRSA");
 	        sig.initSign(PkCertFactory.getPk(merId));
 	        sig.update(plain.getBytes("gbk"));
+	        //sig.update(plain.getBytes("UTF-8"));
 	        byte signData[] = sig.sign();
 	        String sign = new String(Base64.encode(signData));
 	        log_.debug("sign="+sign);

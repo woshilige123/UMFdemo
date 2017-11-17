@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Upload Receipt Files </title>
+	<title>Enterprise Registeration </title>
 	
 	<script
 	src="https://code.jquery.com/jquery-3.1.1.js"
@@ -24,14 +24,13 @@
 	        	var pageData =  new Object();
 	        	$("#alerts").hide();
 			    pageData["mer_id"] = $("#mer_id").val();
-			    pageData["batch_date"] = $("#batch_date").val();
-			    pageData["batch_no"] = $("#batch_no").val();
-			    pageData["currency"] = $("#currency").val();
-			    pageData["file_name"] = $("#file_name").val();
-			    pageData["file_path"] = $("#file_path").val();
-			    pageData["notify_url"] = $("#notify_url").val();
+			    pageData["enterprise_name"] = $("#enterprise_name").val();
+			    pageData["enterprise_org_code"] = $("#enterprise_org_code").val();
+			    pageData["enterprise_contact"] = $("#enterprise_contact").val();
+			    pageData["enterprise_phone"] = $("#enterprise_phone").val();
+			    pageData["enterprise_email"] = $("#enterprise_email").val();
 			    
-			    $.ajax("/demo/uploadReceiptFile",{
+			    $.ajax("/demo/registerEnterprise",{
 			    	method:"POST",
 			    	contentType :"application/json",
 			    	data:JSON.stringify(pageData),
@@ -99,49 +98,42 @@
 			<div class="form-group row">
 			  <label for="example-text-input" class="col-2 col-form-label">Merchant ID</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="3602" id="mer_id">
+			    <input class="form-control" type="text" value="50575" id="mer_id">
 			  </div>
 			</div>
 			
 			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">File path</label>
+			  <label for="example-text-input" class="col-2 col-form-label">Enterprise name</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="/home/sjhdemo" id="file_path">
+			    <input class="form-control" type="text" value="" id="enterprise_name">
 			  </div>
 			</div>
 			
 			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">File name</label>
+			  <label for="example-text-input" class="col-2 col-form-label">Enterprise org code</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="RFXS_3602_20161223_USD_161223R2.txt" id="file_name">
+			    <input class="form-control" type="text" value="" id="enterprise_org_code">
 			  </div>
 			</div>
 			
 			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Currency</label>
+			  <label for="example-text-input" class="col-2 col-form-label">Contact name</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="USD" id="currency">
+			    <input class="form-control" type="text" value="" id="enterprise_contact">
 			  </div>
 			</div>
 			
 			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Upload date</label>
+			  <label for="example-text-input" class="col-2 col-form-label">Phone</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="20161223" id="batch_date">
+			    <input class="form-control" type="text" value="" id="enterprise_phone">
 			  </div>
 			</div>
 			
 			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Batch No.</label>
+			  <label for="example-text-input" class="col-2 col-form-label">Enterprise email</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="161223R2" id="batch_no">
-			  </div>
-			</div>
-			
-			<div class="form-group row">
-			  <label for="example-url-input" class="col-2 col-form-label">Notify URL</label>
-			  <div class="col-10">
-			    <input class="form-control" type="url" value="http://47.88.87.33:8088/demo/demo/notifyResult?" id="notify_url">
+			    <input class="form-control" type="text" value="" id="enterprise_email">
 			  </div>
 			</div>
 			

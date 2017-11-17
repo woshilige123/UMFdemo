@@ -117,12 +117,14 @@ public class HttpClientUtil {
 					paramList.add(new BasicNameValuePair(key, param.get(key)));
 				}
 				// 模拟表单
-				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList);
+				//UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList,"GBK");
+				UrlEncodedFormEntity entity = new UrlEncodedFormEntity(paramList,"UTF-8");
+				//entity.setContentEncoding("utf-8");
 				httpPost.setEntity(entity);
 			}
 			// 执行http请求
 			response = httpClient.execute(httpPost);
-			resultString = EntityUtils.toString(response.getEntity(), "UTF-8");
+			resultString = EntityUtils.toString(response.getEntity(), "utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

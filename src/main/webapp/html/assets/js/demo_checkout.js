@@ -83,6 +83,7 @@ $(document).ready(function(){
 	$("#button-payment-next").click(function(){
 		$('#payinfo_wx').addClass("hidden");
 		//$("#alerts").addClass("hidden");
+		$("#alerts").slideUp();
 		var pay_type = $('#pay_type_radio input:radio:checked').val();
 		if(pay_type == "UNIONPAY_CARD"){
 			if(step==1){

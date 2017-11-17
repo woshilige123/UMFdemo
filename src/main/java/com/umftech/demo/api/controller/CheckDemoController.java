@@ -3,7 +3,10 @@ package com.umftech.demo.api.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,6 +16,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -120,15 +124,18 @@ public class CheckDemoController {
 				CloseableHttpResponse response = httpclient.execute(httpPost);
 				HttpEntity entity = response.getEntity();
 				InputStream is = entity.getContent();
-
+				StringWriter writer = new StringWriter();
+				IOUtils.copy(is, writer, "GBK");
+				String theString = writer.toString();
+				
 			 	SimpleDateFormat sdf = new  SimpleDateFormat("yyyyMMddHHmmss");
 			 	String name = ((String) map.get("mer_id")).concat("_" + sdf.format(new Date())).concat(".txt");
 
 				String filePath = "E:/work/downloadSettleFile/".concat(name);
 				FileOutputStream fos = new FileOutputStream(new File(filePath));
-				int inByte;
-				while((inByte = is.read()) != -1)
-				     fos.write(inByte);
+				Writer out = new OutputStreamWriter(fos, "UTF-8");
+		        out.write(theString);
+		        out.close();
 				is.close();
 				fos.close();
 			} catch (Exception e) {

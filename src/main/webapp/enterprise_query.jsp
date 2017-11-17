@@ -4,7 +4,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>Confirm FX transfer</title>
+	<title>Enterprise Query </title>
 	
 	<script
 	src="https://code.jquery.com/jquery-3.1.1.js"
@@ -24,14 +24,9 @@
 	        	var pageData =  new Object();
 	        	$("#alerts").hide();
 			    pageData["mer_id"] = $("#mer_id").val();
-			    pageData["batch_date"] = $("#batch_date").val();
-			    pageData["batch_no"] = $("#batch_no").val();
-			    pageData["remit_amount"] = $("#remit_amount").val();
-			    pageData["com_amt"] = $("#com_amt").val();
-			    pageData["remit_num"] = $("#remit_num").val();
-			    pageData["notify_url"] = $("#notify_url").val();
+			    pageData["enterprise_org_code"] = $("#enterprise_org_code").val();
 			    
-			    $.ajax("/demo/confirmPayment",{
+			    $.ajax("/demo/checkRegEnterprise",{
 			    	method:"POST",
 			    	contentType :"application/json",
 			    	data:JSON.stringify(pageData),
@@ -99,51 +94,18 @@
 			<div class="form-group row">
 			  <label for="example-text-input" class="col-2 col-form-label">Merchant ID</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="3602" id="mer_id">
+			    <input class="form-control" type="text" value="50575" id="mer_id">
 			  </div>
 			</div>
 			
+			
 			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Effective amount</label>
+			  <label for="example-text-input" class="col-2 col-form-label">Enterprise org code</label>
 			  <div class="col-10">
-			    <input class="form-control" type="text" value="/home/sjhdemo" id="remit_amount">
+			    <input class="form-control" type="text" value="" id="enterprise_org_code">
 			  </div>
 			</div>
 			
-			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Service fee</label>
-			  <div class="col-10">
-			    <input class="form-control" type="text" value="RFXS_3602_20170209_USD_5910.txt" id="com_amt">
-			  </div>
-			</div>
-			
-			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Number of transaction</label>
-			  <div class="col-10">
-			    <input class="form-control" type="text" value="USD" id="remit_num">
-			  </div>
-			</div>
-			
-			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Upload date</label>
-			  <div class="col-10">
-			    <input class="form-control" type="text" value="20170208" id="batch_date">
-			  </div>
-			</div>
-			
-			<div class="form-group row">
-			  <label for="example-text-input" class="col-2 col-form-label">Batch No.</label>
-			  <div class="col-10">
-			    <input class="form-control" type="text" value="5910" id="batch_no">
-			  </div>
-			</div>
-			
-			<div class="form-group row">
-			  <label for="example-url-input" class="col-2 col-form-label">Notify URL</label>
-			  <div class="col-10">
-			    <input class="form-control" type="url" value="http://47.88.87.33:8088/demo/demo/notifyResult?" id="notify_url">
-			  </div>
-			</div>
 			
 	        <div>
 				<input class="btn btn-primary" type="button" value="submit" id = "upload">

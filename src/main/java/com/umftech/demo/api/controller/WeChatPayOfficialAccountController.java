@@ -99,11 +99,13 @@ public class WeChatPayOfficialAccountController {
 	    String merDate = format.format(new Date());
 	    String amount = "0.01";
 		String goodsData = editGoodsData(reqMap.get("order_id"), amount);
-		
+		String merId = reqMap.get("mer_id");
+		String cardHolder = reqMap.get("card_holder");
+		String identityCode = reqMap.get("identity_code");
 	    // parameters
 		reqMap.put("service", "cb_active_scancode_pay");
 		reqMap.put("charset", "UTF-8");
-		reqMap.put("mer_id", "8023");
+		reqMap.put("mer_id", merId);
 		reqMap.put("ret_url", "http://umpay.huiplus.com.cn/demo/payment_success.jsp");
 		reqMap.put("sign_type", "RSA");
 		reqMap.put("res_format", "HTML");
@@ -116,8 +118,8 @@ public class WeChatPayOfficialAccountController {
 		reqMap.put("amount", amount);
 		reqMap.put("goods_data", goodsData);
 		reqMap.put("pay_type", "WECHAT_OA");
-		reqMap.put("card_holder", "罗淳雅");
-		reqMap.put("identity_code", "431381198109106573");
+		reqMap.put("card_holder", cardHolder);
+		reqMap.put("identity_code", identityCode);
 		reqMap.put("identity_type", "IDENTITY_CARD");
 		reqMap.put("mobile_id", "15012345678");
 		try {

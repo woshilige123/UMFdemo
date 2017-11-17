@@ -16,12 +16,15 @@
 	<script>
 		$(document).ready(function(){
 				$("#alerts").hide();
-				$("#confirmPayment").click(function(){
-					var pageData =  new Object();
-		           	var payInfo = new Object();
-				    pageData["order_id"] = $("#order_id").val();
-				    pageData["open_id"] = $("#open_id").val();
-				    $.ajax("/demo/createWeChatPayment",{
+				var pageData =  new Object();
+	           	var payInfo = new Object();
+			    pageData["order_id"] = $("#order_id").val();
+			    pageData["open_id"] = $("#open_id").val();
+			    pageData["identity_code"] = $("#identity_code").val();
+			    pageData["mer_id"] = $("#mer_id").val();
+			    pageData["card_holder"] = $("#card_holder").val();
+			    $("#confirmPayment").click(function(){
+			    	$.ajax("/demo/createWeChatPayment",{
 				    	method:"POST",
 				    	contentType :"application/json",
 				    	data:JSON.stringify(pageData),
@@ -74,9 +77,9 @@
 				    		alert(data.retMsg);
 				    	}
 				    });
-
-				});
-				
+			    });
+			    
+			    $("#confirmPayment").click();
 				//Show alert
 			    function alertMessage(message) {
 			        var timeOut;
@@ -129,5 +132,8 @@
 				<input class="btn btn-primary" type="button" value="Confirm Payment" id = "confirmPayment">
 	  		</div>
 	</div>
+	<input type="hidden" name="mer_id" id="mer_id" value="3965"></input>
+	<input type="hidden" name="card_holder" id="card_holder" value="李光良"></input>
+	<input type="hidden" name="identity_code" id="identity_code" value="222324198408161817"></input>
 </body>
 </html>

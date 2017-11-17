@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Download Settle File</title>
+	<script
+	src="https://code.jquery.com/jquery-3.1.1.js"
+	integrity="sha256-16cdPddA6VdVInumRGo6IbivbERE8p7CQR3HzTBuELA="
+	crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+    crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script>
+		$(document).ready(function(){
+			$("#alerts").hide();
+			$("#pay").click(function(){
+	        	var pageData =  new Object();
+			    pageData["mer_id"] = $("#mer_id").val();
+			    pageData["settle_date"] = $("#settle_date").val();
+			    pageData["settle_type"] = $("#settle_type").val();
+			    
+			    $.ajax("/demo/demo/downloadSettleFile",{
+			    	method:"POST",
+			    	contentType :"application/json",
+			    	data:JSON.stringify(pageData),
+			    	dataType:"json",
+			    	headers:{},
+			    	success:function(data, statusCode){
+			    		console.log(data);
+			    		console.log(statusCode);
+			    		alert(data.retMsg);
+			    	},
+			    	error:function(err){
+			    		console.log(err);
+			    	}
+			    });
+
+			});
+		
+	    //Show alert
+	    function alertMessage(message) {
+	        var timeOut;
+	        $("#alert999").slideDown();
+	        
+	        //Is autoclosing alert
+	        var delay = $(this).attr('data-delay');
+	        if(delay != undefined)
+	        {
+	            delay = parseInt(delay);
+	            clearTimeout(timeOut);
+	            timeOut = window.setTimeout(function() {
+	                    alert.slideUp();
+	                }, delay);
+	        }
+	    }
+	    //Close alert
+	    $('.page-alert .close').click(function(e) {
+	        e.preventDefault();
+	        $(this).closest('.page-alerts').slideUp();
+	    });
+	});
+		
+	</script>
+	<style type="text/css"> 
+		#step1{
+			margin-top: 200px;
+    		margin-left: 200px;
+		}
+	</style>
+</head>
+
+
+
+<body style="font-family: 'Open Sans', sans-serif;">
+<script src='https://js.stripe.com/v2/' type='text/javascript'></script>
+	<div class="container">
+		<div class="page-alerts" id = "alerts">
+			<div class="alert alert-danger page-alert" id="alert999">
+		        <button type="button" class="close"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+		        <p id = "msg"></p>
+		    </div>
+	    </div>
+     </div>
+     <hr class="featurette-divider"></hr>
+     
+	<div id = "step1" class="container">
+	        <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>mer_id</label>
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "mer_id" value = "">
+              </div>
+            </div>
+            <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>settle_date</label>
+                  <input autocomplete='off' class='form-control card-number' size='20' type='text' id = "settle_date" value = "">
+              </div>
+            </div>
+            
+            <div class='form-row'>
+              <div class='form-group card required'>
+                  <label class='control-label'>settle_type</label>
+                  <select id="settle_type" class="form-control">
+				  	<option value="CB_SETTLE" selected="selected">CB_SETTLE</option>
+				  	<option value="CB_COLLATE">CB_COLLATE</option>
+				  </select>
+              </div>
+            </div>
+            
+            
+            
+            <div>
+  				<input type="button" class="btn btn-info"  id = "pay" value="Download">
+		    </div>
+                
+	</div>
+
+</body>
+
+</html>

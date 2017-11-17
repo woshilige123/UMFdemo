@@ -73,6 +73,265 @@ public class FXSettlementDemoController {
 		return jsonInString;
 	}
 
+	@RequestMapping(value = "/registerEnterprise", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String registerEnterprise(HttpServletRequest req, @RequestBody String reqBody){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		try {
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		reqMap.put("service", "register_enterprise");
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("HHmmss");
+	    String date = formatDate.format(new Date());
+	    String time = formatTime.format(new Date());
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("sign_type", "RSA");
+		//reqMap.put("req_date", date);
+		//reqMap.put("req_time", time);
+
+		Map<String, String> resMap = new HashMap<>();
+		try {
+			ReqData reqDataPost;
+			reqDataPost = Mer2Plat_v40.makeReqDataByPost(reqMap);
+			Map<String, String> fieldMap = new HashMap<>();
+			fieldMap = reqDataPost.getField();
+			//String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
+			String resultString = HttpClientUtil.doPost("http://fxsettlement.soopay.net/cbeweb/cbe/cbeservice.do", fieldMap);
+			resMap = Plat2Mer_v40.getResData(resultString);
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			resMap.put("ret_msg", e1.getMessage());
+		}
+		RestReturnTemp rs = new RestReturnTemp();
+		if("0000".equals(resMap.get("ret_code"))){
+			rs.setSuccess(true);
+		}
+		rs.setRetMsg(resMap.get("ret_msg"));
+
+		String jsonInString = "{}";
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
+
+	@RequestMapping(value = "/checkRegEnterprise", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String checkRegEnterprise(HttpServletRequest req, @RequestBody String reqBody){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		try {
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		reqMap.put("service", "query_enterprise");
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("HHmmss");
+	    String date = formatDate.format(new Date());
+	    String time = formatTime.format(new Date());
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("sign_type", "RSA");
+		reqMap.put("req_date", date);
+		reqMap.put("req_time", time);
+
+		Map<String, String> resMap = new HashMap<>();
+		try {
+			ReqData reqDataPost;
+			reqDataPost = Mer2Plat_v40.makeReqDataByPost(reqMap);
+			Map<String, String> fieldMap = new HashMap<>();
+			fieldMap = reqDataPost.getField();
+			//String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
+			String resultString = HttpClientUtil.doPost("http://fxsettlement.soopay.net/cbeweb/cbe/cbeservice.do", fieldMap);
+			resMap = Plat2Mer_v40.getResData(resultString);
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			resMap.put("ret_msg", e1.getMessage());
+		}
+		RestReturnTemp rs = new RestReturnTemp();
+		if("0000".equals(resMap.get("ret_code"))){
+			rs.setSuccess(true);
+		}
+		rs.setRetMsg(resMap.get("ret_msg"));
+
+		String jsonInString = "{}";
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
+	@RequestMapping(value = "/payeeReg", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String registePayee(HttpServletRequest req, @RequestBody String reqBody){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		try {
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		reqMap.put("service", "add_payment_info");
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("HHmmss");
+	    String date = formatDate.format(new Date());
+	    String time = formatTime.format(new Date());
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("sign_type", "RSA");
+		reqMap.put("req_date", date);
+		reqMap.put("req_time", time);
+		reqMap.put("in_account_pro", "FOR_PRIVATE");
+		
+
+		Map<String, String> resMap = new HashMap<>();
+		try {
+			ReqData reqDataPost;
+			reqDataPost = Mer2Plat_v40.makeReqDataByPost(reqMap);
+			Map<String, String> fieldMap = new HashMap<>();
+			fieldMap = reqDataPost.getField();
+			//String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
+			String resultString = HttpClientUtil.doPost("http://fxsettlement.soopay.net/cbeweb/cbe/cbeservice.do", fieldMap);
+			resMap = Plat2Mer_v40.getResData(resultString);
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			resMap.put("ret_msg", e1.getMessage());
+		}
+		RestReturnTemp rs = new RestReturnTemp();
+		if("0000".equals(resMap.get("ret_code"))){
+			rs.setSuccess(true);
+		}
+		rs.setRetMsg(resMap.get("ret_msg"));
+
+		String jsonInString = "{}";
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
+	@RequestMapping(value = "/payeeCheck", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String queryPayeeInfo(HttpServletRequest req, @RequestBody String reqBody){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		try {
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		reqMap.put("service", "query_payment_info");
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("HHmmss");
+	    String date = formatDate.format(new Date());
+	    String time = formatTime.format(new Date());
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("sign_type", "RSA");
+		reqMap.put("req_date", date);
+		reqMap.put("req_time", time);
+		
+
+		Map<String, String> resMap = new HashMap<>();
+		try {
+			ReqData reqDataPost;
+			reqDataPost = Mer2Plat_v40.makeReqDataByPost(reqMap);
+			Map<String, String> fieldMap = new HashMap<>();
+			fieldMap = reqDataPost.getField();
+			//String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
+			String resultString = HttpClientUtil.doPost("http://fxsettlement.soopay.net/cbeweb/cbe/cbeservice.do", fieldMap);
+			resMap = Plat2Mer_v40.getResData(resultString);
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			resMap.put("ret_msg", e1.getMessage());
+		}
+		RestReturnTemp rs = new RestReturnTemp();
+		if("0000".equals(resMap.get("ret_code"))){
+			rs.setSuccess(true);
+		}
+		rs.setRetMsg(resMap.get("ret_msg"));
+
+		String jsonInString = "{}";
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
+	@RequestMapping(value = "/payeeState", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String changePayeeState(HttpServletRequest req, @RequestBody String reqBody){
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> reqMap = new HashMap<String, String>();
+		try {
+			reqMap = mapper.readValue(reqBody, new TypeReference<Map<String, String>>(){});
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+
+		reqMap.put("service", "operation_payment_state");
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("HHmmss");
+	    String date = formatDate.format(new Date());
+	    String time = formatTime.format(new Date());
+		reqMap.put("charset", "UTF-8");
+		reqMap.put("sign_type", "RSA");
+		reqMap.put("req_date", date);
+		reqMap.put("req_time", time);
+		
+		Map<String, String> resMap = new HashMap<>();
+		try {
+			ReqData reqDataPost;
+			reqDataPost = Mer2Plat_v40.makeReqDataByPost(reqMap);
+			Map<String, String> fieldMap = new HashMap<>();
+			fieldMap = reqDataPost.getField();
+			//String resultString = HttpClientUtil.doPost(reqDataPost.getUrl(), fieldMap);
+			String resultString = HttpClientUtil.doPost("http://fxsettlement.soopay.net/cbeweb/cbe/cbeservice.do", fieldMap);
+			resMap = Plat2Mer_v40.getResData(resultString);
+
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			resMap.put("ret_msg", e1.getMessage());
+		}
+		RestReturnTemp rs = new RestReturnTemp();
+		if("0000".equals(resMap.get("ret_code"))){
+			rs.setSuccess(true);
+		}
+		rs.setRetMsg(resMap.get("ret_msg"));
+
+		String jsonInString = "{}";
+		try {
+			jsonInString = mapper.writeValueAsString(rs);
+
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return jsonInString;
+	}
+
 	@RequestMapping(value = "/confirmPayment", method = {RequestMethod.POST}, produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String confirmPayment(HttpServletRequest req, @RequestBody String reqBody){
@@ -220,7 +479,7 @@ public class FXSettlementDemoController {
 		}
 
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyyMMdd");
-		SimpleDateFormat formatTime = new SimpleDateFormat("HHMMSS");
+		SimpleDateFormat formatTime = new SimpleDateFormat("HHmmss");
 	    String date = formatDate.format(new Date());
 	    String time = formatTime.format(new Date());
 		reqMap.put("service", "file_batch_query");
